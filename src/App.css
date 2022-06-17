@@ -1,38 +1,108 @@
+@font-face {
+  font-family: 'Gaegu-Regular';
+  src: url('./fonts/Gaegu-Regular.ttf');
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.header {
+  font-family: 'Gaegu-Regular', cursive;
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 50px;
+  cursor: pointer;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* 모달 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.modal button {
+  outline: none;
+  cursor: pointer;
+  border: 0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.modal > section {
+  width: 90%;
+  max-width: 650px;
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fff;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-show 0.3s;
+  overflow: hidden;
+  position: relative;
+  background-color: black;
+}
+.modal > section {
+  /* position: relative; */
+  font-weight: 700;
+}
+.modal > section > button {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  width: 30px;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+  color: #999;
+  background-color: transparent;
+}
+.modal > section > main {
+  padding: 16px;
+  border-bottom: 1px solid #dee2e6;
+}
+.modal > section > footer {
+  padding: 12px 16px;
+  text-align: right;
+}
+.modal > section > footer button {
+  padding: 6px 12px;
+  color: #fff;
+  background-color: #6c757d;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.modal.openModal {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
+@keyframes modal-show {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    margin-top: -50px;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
