@@ -9,7 +9,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Main />} />
-        {/* <Route path='/detail/:id' element={<Detail />} /> */}
+        <Route path='/detail/:id' element={<Detail />} />
         <Route path='/write' element={<FormPage mode="write" />} />
         <Route path='/update/:id' element={<FormPage mode="update" />} />
         <Route path='/signin' element={<SignIn />} />
