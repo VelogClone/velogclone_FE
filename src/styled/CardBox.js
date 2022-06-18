@@ -40,10 +40,7 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
   };
 
   return (
-
-        <Grid item xs={12} sm={4} md={4}>
-          <Item>
-            <Card sx={{ maxWidth: 500 }}>
+            <Card sx={{ maxWidth: 600 }}>
               <CardMedia
                 component="img"
                 height="194"
@@ -75,7 +72,6 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
                 title={nickname}
               />
             </Card>
-          </Item>
-        </Grid>
+
   );
 }
