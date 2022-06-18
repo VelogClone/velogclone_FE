@@ -1,7 +1,7 @@
 {
     "posts": [
         {
-            "id": 1,
+            "id": 0,
             "postTitle": "test",
             "postImage": "http: //3.39.226.20/imagename.png",
             "postContent": "포스트 아이디가 3번째예요. ",
@@ -11,7 +11,7 @@
             "commentCount": 3
         },
         {
-            "id": 2,
+            "id": 1,
             "postTitle": "4번째 등록한 컨텐츠",
             "postImage": "http: //3.39.226.20/imagename.jpg",
             "postContent": "포스트내용",
@@ -21,7 +21,7 @@
             "commentCount": 0
         },
         {
-            "id": 3,
+            "id": 2,
             "postTitle": "벨로그",
             "postImage": "http: //3.39.226.20/imagename.png",
             "postContent": "벨로그를 클론하는 중입니다. ",
@@ -31,7 +31,7 @@
             "commentCount": 3
         },
         {
-            "id": 4,
+            "id": 3,
             "postTitle": "제목입니다",
             "postImage": "http: //3.39.226.20/imagename.jpg",
             "postContent": "포스트내용",
