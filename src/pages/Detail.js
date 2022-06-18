@@ -9,26 +9,24 @@ const Detail = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const postId =  params.id; 
-    console.log(postId) // 12번 주석, 14번 주석 = 값 매칭이 안됨. 
-    const post_card = useSelector((state) => state.post.list)
-
-    console.log(post_card);
-
+    // console.log(postId)  
+    // console.log(post_card[postId]);
     useEffect(()=> {
        dispatch(detailpostAPI(postId));
-    },[])    
+    },[])   
+    const post_card = useSelector((state) => state.post.card) 
 
     return (
         <div>
-            <h1>{post_card[postId].postTitle}</h1>
+            <h1>{post_card.postTitle}</h1>
             <div><button>수정</button>
             <button>삭제</button></div>
-            <div><p>{post_card[postId].userId}</p><p>{post_card[postId].postDate}</p></div>
+            <div><p>{post_card.userId}</p><p>{post_card.postDate}</p></div>
             <div><textarea></textarea></div>
-            <div><img src={post_card[postId].postImage} alt= "null"/></div>
-            <div><img src={post_card[postId].userImage} alt= "null"/>, 
-            {post_card[postId].nickname}</div>
-            <div>{post_card[postId].commentCount}</div>  
+            <div><img src={post_card.postImage} alt= "null"/></div>
+            <div><img src={post_card.userImage} alt= "null"/>, 
+            {post_card.nickname}</div>
+            <div>{post_card.commentCount}</div>  
             <button onClick={() => navigate("/")}> 메인페이지 이동
             </button>
         </div>

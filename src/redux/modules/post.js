@@ -63,11 +63,11 @@ export default function reducer(state = initialState, action = {}) {
         case "post/MAINPOST": {
             const posts = [...action.post_list]
             console.log(posts)
-            return { list: posts, card: []}
+            return { list: posts, card: [] }
         }
         case "post/DETAILPOST": {
             console.log(state.list, action.post_index)
-            return { list: state.list, card: action.post_index}
+            return { list: state.list, card: action.post_index }
         }
         default:
             return state;

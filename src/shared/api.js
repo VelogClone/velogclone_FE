@@ -28,4 +28,5 @@ export const authApi = {
 
 export const postApi = {
     main: () => api.get("/posts"),
+    detail: (postId) => api.get(`/posts/${postId}`)
 }
