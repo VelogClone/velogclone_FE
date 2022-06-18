@@ -5,7 +5,7 @@ const Button = (props) => {
 
     const styles = {
         width,
-        height,
+        height : "10%",
         margin,
 
     };

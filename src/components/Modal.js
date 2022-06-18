@@ -56,12 +56,12 @@ export const ModalRight = ({ onClick, signUp }) => {
             margin: 'auto',
         }}>
             {signUp ? <h3>회원가입</h3> : <h3>로그인</h3>}
-            <div>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                 <Input
                     placeholder='아이디를 입력하세요.'
-                    width={signUp ? "57%" : "92.8%"}
+                    // width={signUp ? "100%" : "100%"}
                 />
-                {signUp ? <Button width='33%'  >중복확인</Button> : null}
+                {signUp ? <Button width='50%'>중복확인</Button> : null}
             </div>
 
 
