@@ -16,20 +16,20 @@ export function deleteUser(user) {
     return { type: DELETE, user };
 }
 
-// export const loadUserFB = () => {
-//   return async function (dispatch, getState) {
-//     let user;
-//     await authApi.authCheck().then((response) => {
-//       console.log(response.data);
-//       user = response.data;
-//     }).catch(error => console.log(error));
-//     console.log(user);
-//     if (user == undefined) {
-//       user = {};
-//     }
-//     dispatch(loadUser(user));
-//   };
-// };
+export const loadUserMW = () => {
+    //   return async function (dispatch, getState) {
+    //     let user;
+    //     await authApi.authCheck().then((response) => {
+    //       console.log(response.data);
+    //       user = response.data;
+    //     }).catch(error => console.log(error));
+    //     console.log(user);
+    //     if (user == undefined) {
+    //       user = {};
+    //     }
+    //     dispatch(loadUser(user));
+    //   };
+};
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {

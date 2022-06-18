@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import styled, { isStyledComponent } from 'styled-components';
 import { Button, Input } from '../elements';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { loadUserMW } from '../redux/modules/user';
+import { authApi } from '../shared/api';
 export const SignUp = ({ onClick, signUp }) => {
+    const dispatch = useDispatch();
+
     const regExpId = /^[0-9a-zA-Z]+$/;  // 영문 숫자면 됨 
     const regExpPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/; //영문,숫자,특문 최소 하나씩 최소8자리이상
 
@@ -33,19 +37,22 @@ export const SignUp = ({ onClick, signUp }) => {
             alert('비밀번호가 일치하지 않습니다!')
             return;
         }
-        // const data = { id, nick };
-        // authApi.signup(data);
+
         let formData = new FormData();
         formData.append("nickname", id);
         formData.append("password", pw);
         formData.append("passwordCheck", pw_check);
-        formData.append("userImage", fileInput.current.files[0]);
-        for (let key of formData.keys()) {
-            console.log(key);
-        }
+        formData.append("userImage", fileInput?.current.files[0]);
         for (let value of formData.values()) {
             console.log(value);
         }
+        const data = {
+            id: id,
+            pw: pw,
+        }
+        // authApi.signUp(formData);
+        authApi.signUp(data);
+
     }
     const selectFile = (e) => {
         // setFileName(e.target.value.split('\\')[2]);
