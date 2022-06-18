@@ -1,39 +1,43 @@
 {
     "posts": [
         {
-            "postId": 2,
+            "id": 1,
             "postTitle": "test",
             "postImage": "http: //3.39.226.20/imagename.png",
             "postContent": "포스트 아이디가 3번째예요. ",
             "postDate": "2022. 6. 17. 17: 41",
-            "userId": "그냥그냥",
+            "nickname": "그냥그냥",
+            "userImage": "http: //3.39.226.20/imagename.png",
             "commentCount": 3
         },
         {
-            "postId": 3,
+            "id": 2,
             "postTitle": "4번째 등록한 컨텐츠",
             "postImage": "http: //3.39.226.20/imagename.jpg",
             "postContent": "포스트내용",
             "postDate": "2022. 6. 17. 17: 41",
-            "userId": "choi927",
+            "nickname": "choi927",
+            "userImage": "http: //3.39.226.20/imagename.png",
             "commentCount": 0
         },
         {
-            "postId": 0,
+            "id": 3,
             "postTitle": "벨로그",
             "postImage": "http: //3.39.226.20/imagename.png",
             "postContent": "벨로그를 클론하는 중입니다. ",
             "postDate": "2022. 6. 17. 17: 41",
-            "userId": "짱짱맨",
+            "nickname": "짱짱맨",
+            "userImage": "http: //3.39.226.20/imagename.png",
             "commentCount": 3
         },
         {
-            "postId": 1,
+            "id": 4,
             "postTitle": "제목입니다",
             "postImage": "http: //3.39.226.20/imagename.jpg",
             "postContent": "포스트내용",
             "postDate": "2022. 6. 17. 17: 41",
-            "userId": "choi927",
+            "nickname": "choi927",
+            "userImage": "http: //3.39.226.20/imagename.png",
             "commentCount": 0
         }
     ]
