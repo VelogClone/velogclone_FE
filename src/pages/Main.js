@@ -28,7 +28,7 @@ const Main = () => {
                         {post_list.map((post) => {
                             return (
                                 <Grid item xs={4} sm={4} md={4} key={post.id}>
-                                    <div onClick={() => navigate("/detail/"+post.id)}>
+                                    <div onClick={() => navigate("/detail/" + post.id)}>
                                         <p><RecipeReviewCard
                                             postImage={post.postImage}
                                             postTitle={post.postTitle}
