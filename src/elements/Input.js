@@ -28,7 +28,6 @@ Input.defaultProps = {
     _onChange: () => { },
     margin: false,
     defaultValue: '',
-    value: '',
 };
 //   `width: ${props.width};`
 const InputBox = styled.input`

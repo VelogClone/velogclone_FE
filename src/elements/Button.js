@@ -11,7 +11,7 @@ const Button = (props) => {
     };
     return (
         <CustomButton
-            {...styles}
+            // {...styles}
             onClick={_onClick}
             style={{ width, height, margin }}
             disabled={_disabled}
@@ -27,7 +27,7 @@ Button.defaultProps = {
     _onClick: () => { },
     _disabled: false,
     margin: false,
-    editable: true
+    width: false,
 };
 
 const CustomButton = styled.button`

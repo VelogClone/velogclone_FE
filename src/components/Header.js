@@ -5,9 +5,12 @@ import { BsFillSunFill } from "react-icons/bs";
 import ControlledOpenSelect from './Dropdown';
 import Modal from './Modal';
 import { useNavigate } from 'react-router-dom'
+import { AiOutlineMenu } from 'react-icons/ai';
+import { } from '../header.css';
 const Header = () => {
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
+    const [drop, setDrop] = useState(false);
 
     const openModal = () => {
         setModalOpen(true);
@@ -15,6 +18,8 @@ const Header = () => {
     const closeModal = () => {
         setModalOpen(false);
     };
+
+
     return (
         <>
             <Container>
@@ -24,7 +29,14 @@ const Header = () => {
                         <FaMoon />
                         <BsFillSunFill />
                     </div>
-                    <LoginBtn onClick={openModal} >로그인</LoginBtn>
+                    <Btn onClick={openModal} >로그인</Btn>
+                    <AiOutlineMenu
+                        className='menu-btn'
+                        onClick={() => { { setDrop(!drop) } }}
+                    />
+                    <Btn>로그아웃</Btn>
+
+                    {/* <ControlledOpenSelect></ControlledOpenSelect> */}
                     <Modal open={modalOpen} close={closeModal} header="Modal heading">
                         <main style={{ color: "black" }}>
                             ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
@@ -32,14 +44,17 @@ const Header = () => {
                         에 내용이 입력된다. 리액트 함수형 모달
                         팝업창입니다. 쉽게 만들 수 있어요. 같이 만들어봐요!
                     </Modal>
-                    <ControlledOpenSelect></ControlledOpenSelect>
-                </div>
-                <div style={{
-                    width: '15%', height: '100px', backgroundColor: 'red',
-                    position: 'absolute', top: "100%", right: 0
-                }}> </div>
 
+                </div>
+                <DropdownMenu drop={drop}>
+                    <li onClick={() => navigate('/write')} >글 작성</li>
+                    <li>ㅇㅇㅇ</li>
+                    <li>ㅇㅇㅇ</li>
+                </DropdownMenu>
             </Container>
+
+
+
 
         </>
     )
@@ -57,16 +72,33 @@ const Container = styled.div`
     position: relative;
 `;
 
-const LoginBtn = styled.span`
+const Btn = styled.span`
     background-color: white;
     color: black;
     padding: 2px;
     margin:0 30px;
     border-radius:20px;
-    padding: 13px 17px;
+    padding: 10px 14px;
 `;
 
+const DropdownMenu = styled.ul`
+    // display: ${(props) => (props.drop ? 'block' : 'none')};
+    max-height:${(props) => (props.drop ? '' : '0')};
+    overflow: hidden;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    & > li {
+        padding: 10px;
+        cursor: pointer;
+    }
+    & > li:hover {
+        color: rgba(150, 242, 215, 1);
 
+    }
+`;
 
 
 
@@ -89,5 +121,8 @@ const MenuBox = styled.div`
     //     display:block;
     // }
 
-    `
+`
+
+
 export default Header;
+

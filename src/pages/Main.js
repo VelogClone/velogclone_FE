@@ -23,14 +23,14 @@ const Main = () => {
                     return (
                         <div key={post.postId}>
                             <div>
-                                <p><RecipeReviewCard
+                                {/* <p><RecipeReviewCard
                                     postImage={post.postImage}
                                     postTitle={post.postTitle}
                                     postContent={post.postContent}
                                     postDate={post.postDate}
                                     userId={post.userId} /></p>
                                 <p>좋아요</p>
-                                <p>좋아요 숫자</p>
+                                <p>좋아요 숫자</p> */}
                             </div>
                         </div>
                     )
