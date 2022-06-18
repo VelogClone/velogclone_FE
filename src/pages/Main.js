@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { mainpostAPI } from "../redux/modules/post";
 import RecipeReviewCard from "../styled/CardBox";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 
 const Main = () => {
     const navigate = useNavigate();
@@ -21,18 +23,22 @@ const Main = () => {
             <div>
                 {post_card.map((post) => {
                     return (
-                        <div key={post.postId}>
-                            <div>
-                                <p><RecipeReviewCard
-                                    postImage={post.postImage}
-                                    postTitle={post.postTitle}
-                                    postContent={post.postContent}
-                                    postDate={post.postDate}
-                                    userId={post.userId} /></p>
-                                <p>좋아요</p>
-                                <p>좋아요 숫자</p>
-                            </div>
-                        </div>
+                        <Container sx={{ py: 4 }} maxWidth="md">
+                            <Grid container spacing={4}>
+                                <div key={post.postId}>
+                                    <div>
+                                        <p><RecipeReviewCard
+                                            postImage={post.postImage}
+                                            postTitle={post.postTitle}
+                                            postContent={post.postContent}
+                                            postDate={post.postDate}
+                                            userImage={post.userImage}
+                                            commentCount={post.commentCount}
+                                            nickname={post.nickname} /></p>
+                                    </div>
+                                </div>
+                            </Grid>
+                        </Container>
                     )
                 })}
             </div>
