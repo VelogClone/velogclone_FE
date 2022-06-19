@@ -2,18 +2,18 @@
     "posts": [
         {
             "id": 0,
-            "postTitle": "test",
-            "postImage": "http: //3.39.226.20/imagename.png",
-            "postContent": "포스트 아이디가 3번째예요. ",
+            "postTitle": "id= 0 테스트 중입니다. ",
+            "postImage": "http://storage.enuri.info/pic_upload/knowbox2/202009/0841147752020092540507c61-d3bc-4f18-a8ff-cd36a240ca2f.jpg",
+            "postContent": "잘 되기를 바랄 뿐입니다. plz ",
             "postDate": "2022. 6. 17. 17: 41",
-            "nickname": "그냥그냥",
-            "userImage": "http: //3.39.226.20/imagename.png",
+            "nickname": "아무생각없음",
+            "userImage": "https://media.bunjang.co.kr/images/crop/636960581_w%7Bres%7D.jpg",
             "commentCount": 3
         },
         {
             "id": 1,
             "postTitle": "4번째 등록한 컨텐츠",
-            "postImage": "http: //3.39.226.20/imagename.jpg",
+            "postImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPrx2Jht_ipSlXC78BgS-aDGH_TpFWOxVSyQ&usqp=CAU",
             "postContent": "포스트내용",
             "postDate": "2022. 6. 17. 17: 41",
             "nickname": "choi927",
@@ -39,6 +39,53 @@
             "nickname": "choi927",
             "userImage": "http: //3.39.226.20/imagename.png",
             "commentCount": 0
+        }
+    ],
+    "comment": [
+        {
+            "id": 0,
+            "comment": "댓글1",
+            "commentId": 1,
+            "commentDate": "2022. 6. 17. 17:41",
+            "nickname": "choi927",
+            "userImage": "http://3.39.226.20/imagename.jpg",
+            "postId": 1
+        },
+        {
+            "id": 1,
+            "comment": "댓글2",
+            "commentId": 1,
+            "commentDate": "2022. 6. 10. 17:41",
+            "nickname": "되는건가",
+            "userImage": "http://3.39.226.20/imagename.jpg",
+            "postId": 2
+        },
+        {
+            "id": 2,
+            "comment": "댓글3",
+            "commentId": 2,
+            "commentDate": "2022. 6. 10. 17:41",
+            "nickname": "1번 포스트에 2번째 댓글",
+            "userImage": "http://3.39.226.20/imagename.jpg",
+            "postId": 1
+        },
+        {
+            "id": 3,
+            "comment": "포스트 1번 3번쨰 댓글/ ",
+            "commentId": 3,
+            "commentDate": "2022. 6. 10. 17:41",
+            "nickname": "되는건가",
+            "userImage": "http://3.39.226.20/imagename.jpg",
+            "postId": 1
+        },
+        {
+            "id": 4,
+            "comment": "포스트 3번 1번째 댓글 ",
+            "commentId": 1,
+            "commentDate": "2022. 6. 10. 17:41",
+            "nickname": "이상무",
+            "userImage": "http://3.39.226.20/imagename.jpg",
+            "postId": 3
         }
     ]
 }

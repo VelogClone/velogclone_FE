@@ -1,34 +1,80 @@
-import React, {useEffect} from "react";
-import { useDispatch, useSelector} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { detailpostAPI } from "../redux/modules/post";
+import { postApi, commentApi } from "../shared/api";
+import { Title, UpdateButton, Container, Profile } from "../styled/DetailCss";
 
 const Detail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    const postId =  params.id; 
-    // console.log(postId)  
-    // console.log(post_card[postId]);
-    useEffect(()=> {
-       dispatch(detailpostAPI(postId));
-    },[])   
-    const post_card = useSelector((state) => state.post.card) 
+    const postId = params.id;
+    // console.log(postId)
+    //해당 게시물 가져오기 
+    const [card, setCard] = useState(0);
+    //게시물에 등록된 코멘트 가져오기
+    const [comment, setComment] = useState([]);
+
+    useEffect(() => {
+        postApi.detail(postId).then((res) => {
+            console.log(res, "상세페이지 포스트업로드 성공")
+            setCard(res.data);
+            console.log(card)
+        })
+            .catch((err) => {
+                console.log(err.response.data, "상세페이지 포스트업로드 오류");
+            })
+        commentApi.commentList().then((res) => {
+            console.log(res, "상세페이지 댓글업로드 성공")
+            const commentFilter = res.data.filter((x) => x.postId == postId)
+            console.log(commentFilter);
+            setComment(commentFilter);
+        })
+            .catch((err) => {
+                console.log(err.response.data, "상세페이지 댓글업로드 오류");
+            })
+    }, [])
+    useEffect(() => {
+        console.log(card, comment);
+        console.log(card.postTitle, comment.comment);
+    })
 
     return (
-        <div>
-            <h1>{post_card.postTitle}</h1>
-            <div><button>수정</button>
-            <button>삭제</button></div>
-            <div><p>{post_card.userId}</p><p>{post_card.postDate}</p></div>
-            <div><textarea></textarea></div>
-            <div><img src={post_card.postImage} alt= "null"/></div>
-            <div><img src={post_card.userImage} alt= "null"/>, 
-            {post_card.nickname}</div>
-            <div>{post_card.commentCount}</div>  
-            <button onClick={() => navigate("/")}> 메인페이지 이동
-            </button>
+        <div style={{ margin: "auto", width: "80vw", maxWidth: "70%" }}>
+            <Title>{card.postTitle}</Title>
+            <UpdateButton>
+                <div>{card.postDate}</div>
+                <div>
+                    <button>수정</button>
+                    <button>삭제</button></div></UpdateButton>
+            <Container>
+                <div>{card.postContent}</div>
+                <img src={card.postImage} alt="null" />
+            </Container>
+            <div style={{display:"relative"}}>
+                <Profile>
+                    <img src={card.userImage} alt="null" />,
+                </Profile>
+                <div>{card.nickname}</div>
+            </div>
+            <div>{card.commentCount}개의 댓글</div>
+            <textarea>댓글을 작성하세요</textarea>
+            <button>댓글작성</button>
+            <div>
+                {comment.map((data) => {
+                    return (
+                        <div key={data.commentId}>
+                            <div>{data.userImage}</div>
+                            <div>{data.nickname}</div>
+                            <div>{data.commnetDate}</div>
+                            <div>{data.comment}</div>
+                            <button>수정</button>
+                            <button>삭제</button>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }
