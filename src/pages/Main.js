@@ -18,7 +18,7 @@ const Main = () => {
     }, []);
 
     return (
-        <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <div>
                 <h3>트렌딩</h3>
                 <h3>내가 쓴 글</h3>
@@ -29,7 +29,7 @@ const Main = () => {
                         {post_list.map((post, idx) => {
                             return (
                                 <Grid item xs={4} sm={4} md={4} key={idx}>
-                                    <div onClick={() => navigate("/detail/"+ post.postId)}>
+                                    <div onClick={() => navigate("/detail/" + post.postId)}>
                                         <div><RecipeReviewCard
                                             postImage={post.postImage}
                                             postTitle={post.postTitle}

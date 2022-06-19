@@ -4,10 +4,11 @@ import ToastEditor from '../components';
 import { Button, Input } from '../elements';
 import { addPostDB } from '../redux/modules/post';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 const FormPage = ({ mode }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { id } = useParams();
     const fileInput = useRef();
     // const [fileName, setFileName] = useState('');
     const [fileImage, setFileImage] = useState('');
@@ -19,7 +20,7 @@ const FormPage = ({ mode }) => {
         setFileImage(URL.createObjectURL(fileInput.current.files[0]));
     };
 
-    const writeClick = () => {
+    const getData = () => {
         let formData = new FormData();
 
         formData.append("postTitle", inputText);
@@ -29,10 +30,23 @@ const FormPage = ({ mode }) => {
         for (let value of formData.values()) {
             console.log(value);
         }
+        return formData;
+    }
 
-        dispatch(addPostDB(formData))
+    const writeClick = () => {
+        // let formData = new FormData();
+
+        // formData.append("postTitle", inputText);
+        // formData.append("postImage", fileInput?.current.files[0]);
+        // formData.append("postContent", areaText);
+        const data = getData();
+
+        dispatch(addPostDB(data))
         navigate(-1);
+    }
 
+    const updateClick = () => {
+        const data = getData();
     }
     return (
         <div style={{ display: 'flex', color: 'white' }}>
@@ -90,7 +104,9 @@ const FormPage = ({ mode }) => {
                         }}
                         onClick={() => { navigate(-1); }}
                     >나가기</span>
-                    <Button _onClick={writeClick} >출간하기</Button>
+                    {mode === 'write' ? <Button _onClick={writeClick} >출간하기</Button>
+                    :     <Button _onClick={updateClick} >수정하기</Button>
+                }
                 </Footer>
 
             </WriteContainer >

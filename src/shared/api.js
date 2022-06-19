@@ -59,7 +59,7 @@ export const authApi = {
 
 export const postApi = {
     main: () => api.get("api/posts"),
-    detail: (postId) => api.get(`/posts/${postId}`),
+    detail: (postId) => api.get(`api/posts/${postId}`),
     addPost: (formData) => ImgApi.post('/api/posts', formData)
 }
 

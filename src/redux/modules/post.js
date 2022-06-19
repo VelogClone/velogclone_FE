@@ -62,7 +62,7 @@ export default function reducer(state = initialState, action = {}) {
         case "post/ADD": {
             const post = [...action.post]
             console.log(post)
-            // return { list: [...state.list, action.post] };
+            return { list: [...state.list, action.post] };
         }
 
         default:

@@ -51,8 +51,7 @@ export const loginCheckDB = () => {
     return async function (dispatch, getState) {
         authApi.loginCheck()
             .then(res => {
-                console.log(res.data)
-                dispatch(setUser(res.data.nickname));
+                dispatch(setUser(res.data.user.nickname));
             })
             .catch(err => {
                 alert('유저 정보가 없네요' + err)

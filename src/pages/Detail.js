@@ -6,20 +6,21 @@ import { postApi, commentApi } from "../shared/api";
 import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button } from "../styled/DetailCss";
 
 const Detail = () => {
-    const userName = useSelector(state => state.user.nickname)
-    console.log(userName);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const comment_Ref = useRef();
     const params = useParams();
     const postId = params.id;
+    const userName = useSelector((state) => state.user.nickname);
     console.log(postId)
     //해당 게시물 가져오기 
-    const [card, setCard] = useState(0);
+    const [card, setCard] = useState('');
     //게시물에 등록된 코멘트 가져오기
     const [comment, setComment] = useState([]);
+
     console.log(card)
     useEffect(() => {
+        console.log("왜 안되냐고...")
         postApi.detail(postId).then((res) => {
             console.log(res, "상세페이지 포스트업로드 성공")
             setCard(res.data.post);
@@ -28,11 +29,11 @@ const Detail = () => {
                 console.log(err.response.data, "상세페이지 포스트업로드 오류");
             })
     }, [])
-
-    useEffect(() => {
-        console.log(card, comment);
-        console.log(card.postTitle, comment.comment);
-    })
+    console.log(userName, card.nickname)
+    // useEffect(() => {
+    //     console.log(card, comment);
+    //     console.log(card.postTitle, comment.comment);
+    // })
 
     return (
         <div style={{ margin: "auto", width: "80vw", maxWidth: "70%" }}>
@@ -45,6 +46,7 @@ const Detail = () => {
                         <button>삭제</button>
                     </>
                 }
+
             </UpdateButton>
             <Container>
                 <div>{card.postContent}</div>
