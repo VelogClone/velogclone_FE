@@ -5,6 +5,7 @@ import { mainpostAPI } from "../redux/modules/post";
 import RecipeReviewCard from "../styled/CardBox";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import { integerPropType } from "@mui/utils";
 
 const Main = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Main = () => {
                         {post_list.map((post, idx) => {
                             return (
                                 <Grid item xs={4} sm={4} md={4} key={idx}>
-                                    <div onClick={() => navigate("/detail/" + post.id)}>
+                                    <div onClick={() => navigate("/detail/"+ post.postId)}>
                                         <div><RecipeReviewCard
                                             postImage={post.postImage}
                                             postTitle={post.postTitle}
