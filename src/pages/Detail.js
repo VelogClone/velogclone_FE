@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { postApi, commentApi } from "../shared/api";
@@ -11,30 +11,32 @@ const Detail = () => {
     const comment_Ref = useRef();
     const params = useParams();
     const postId = params.id;
-    // console.log(postId)
+    console.log(postId)
     //해당 게시물 가져오기 
     const [card, setCard] = useState(0);
     //게시물에 등록된 코멘트 가져오기
     const [comment, setComment] = useState([]);
+    const userName = useSelector((state) => state.user.nickname);
 
     useEffect(() => {
         postApi.detail(postId).then((res) => {
             console.log(res, "상세페이지 포스트업로드 성공")
             setCard(res.data);
             console.log(card)
+            
         })
             .catch((err) => {
                 console.log(err.response.data, "상세페이지 포스트업로드 오류");
             })
-        commentApi.commentList().then((res) => {
-            console.log(res, "상세페이지 댓글업로드 성공")
-            const commentFilter = res.data.filter((x) => x.postId == postId)
-            console.log(commentFilter);
-            setComment(commentFilter);
-        })
-            .catch((err) => {
-                console.log(err.response.data, "상세페이지 댓글업로드 오류");
-            })
+        // commentApi.commentList().then((res) => {
+        //     console.log(res, "상세페이지 댓글업로드 성공")
+        //     const commentFilter = res.data.filter((x) => x.postId == postId)
+        //     console.log(commentFilter);
+        //     setComment(commentFilter);
+        // })
+        //     .catch((err) => {
+        //         console.log(err.response.data, "상세페이지 댓글업로드 오류");
+        //     })
     }, [])
     useEffect(() => {
         console.log(card, comment);
@@ -46,21 +48,26 @@ const Detail = () => {
             <Title>{card.postTitle}</Title>
             <UpdateButton>
                 <div>{card.postDate}</div>
-                <div>
-                    <button>수정</button>
-                    <button>삭제</button></div></UpdateButton>
+                {(userName === card.nickname) &&
+                    <>
+                        <button>수정</button>
+                        <button>삭제</button>
+                    </>
+                }
+
+            </UpdateButton>
             <Container>
                 <div>{card.postContent}</div>
                 <img src={card.postImage} alt="null" />
             </Container>
-            <div style={{position :"relative", marginLeft:"2%"}}>
+            <div style={{ position: "relative", marginLeft: "2%" }}>
                 <Profile>
                     <img src={card.userImage} alt="null" />,
                 </Profile>
                 <Nickname>{card.nickname}</Nickname>
             </div>
             <CommentCount>{card.commentCount}개의 댓글</CommentCount>
-            <Input type="text" placeholder="댓글을 작성하세요" ref={comment_Ref}/>
+            <Input type="text" placeholder="댓글을 작성하세요" ref={comment_Ref} />
             <Button>댓글작성</Button>
             <div>
                 {comment.map((data) => {

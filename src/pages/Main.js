@@ -5,12 +5,15 @@ import { mainpostAPI } from "../redux/modules/post";
 import RecipeReviewCard from "../styled/CardBox";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import { integerPropType } from "@mui/utils";
 
 const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const post_list = useSelector((state) => state.post.list)
-    // console.log(post_list);
+    console.log(post_list);
+    const _ID = post_list.map((x) => x.postId)
+    console.log(_ID)
 
     React.useEffect(() => {
         dispatch(mainpostAPI());
@@ -28,7 +31,7 @@ const Main = () => {
                         {post_list.map((post, idx) => {
                             return (
                                 <Grid item xs={4} sm={4} md={4} key={idx}>
-                                    <div onClick={() => navigate("/detail/" + post.id)}>
+                                    <div onClick={navigate("/detail/"+idx)}>
                                         <div><RecipeReviewCard
                                             postImage={post.postImage}
                                             postTitle={post.postTitle}

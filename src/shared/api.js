@@ -58,8 +58,8 @@ export const authApi = {
 
 
 export const postApi = {
-    main: () => api.get("api/posts"),
-    detail: (postId) => api.get(`/posts/${postId}`)
+    main: () => api.get("/api/posts"),
+    detail: (postId) => api.get(`api/posts/${postId}`)
 }
 
 export const commentApi = {
