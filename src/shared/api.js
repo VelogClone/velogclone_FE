@@ -61,3 +61,10 @@ export const postApi = {
     main: () => api.get("api/posts"),
     detail: (postId) => api.get(`/posts/${postId}`)
 }
+
+export const commentApi = {
+    commentList: () => api.get("/comment")
+    // commentWrite: 
+    // commentUpdate:
+    // commentDelete:
+}

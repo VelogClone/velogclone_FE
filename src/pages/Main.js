@@ -10,20 +10,20 @@ const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const post_list = useSelector((state) => state.post.list)
-    console.log(post_list);
+    // console.log(post_list);
 
     React.useEffect(() => {
         dispatch(mainpostAPI());
     }, []);
 
     return (
-        <div>
+        <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>
             <div>
                 <h3>트렌딩</h3>
                 <h3>내가 쓴 글</h3>
             </div>
             <div>
-                <Container sx={{ py: 4 }} maxWidth="md">
+                <Container sx={{ py: 4 }} maxWidth="lg">
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {post_list.map((post, idx) => {
                             return (
@@ -44,8 +44,6 @@ const Main = () => {
                     </Grid>
                 </Container>
             </div>
-            <button onClick={() => navigate('/detail')}>상세페이지 이동
-            </button>
         </div>
     )
 }
