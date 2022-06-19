@@ -1,32 +1,63 @@
 import axios from "axios";
 
-const api = axios.create({
-    baseURL: "http://localhost:5001",
+const ImgApi = axios.create({
+    baseURL: "http://3.35.170.203",
+    headers: {
+        "content-type": "multipart/form-data",
+    }
 });
 
-export const authApi = {
-    signUp: async (data) => {
-        console.log(data)
-        await axios({
-            method: "post",
-            url: "/api_signup",
-            data: data,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        }).then(response => {
-            console.log(response);
-        }).catch(error => {
-            console.log(error);
+if (localStorage.getItem('jwtToken'))
+    ImgApi.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
-            alert('에러가 발생함');
-        })
+const api = axios.create({
+    baseURL: "http://3.35.170.203",
+    headers: {
+        "content-type": "application/json;charset=utf-8",
+        accept: "application/json",
     }
+});
+if (localStorage.getItem('jwtToken'))
+    api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
+
+
+
+
+
+export const authApi = {
+    // signUp: async (data) => {
+    //     console.log(data)
+    //     await api
+    //         .post('/api_signup', data)
+    //         .then((res) => {
+    //             alert('등록 완료!');
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //             alert(error.response.data);
+    //         });
+    // }
+    signUp: (formData) => ImgApi.post('/api/signup', formData)
+
+    // api.post('/api_signup', formData, {
+    //     headers: {
+    //         'Content-Type': 'multipart/form-data'
+    //     }
+    // })
+
+    ,
+    signIn: (id, pw) => api.post('/api/login', {
+        nickname: id,
+        password: pw,
+    },
+        { withCredentials: true }),
+
+    loginCheck: () => api.get('/api/auth')
 }
 
 
 export const postApi = {
-    main: () => api.get("/posts"),
+    main: () => api.get("api/posts"),
     detail: (postId) => api.get(`/posts/${postId}`)
 }

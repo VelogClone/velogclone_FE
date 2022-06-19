@@ -23,7 +23,7 @@ export const mainpostAPI = () => {
     return async function (dispatch) {
         await postApi.main().then((res) => {
             console.log(res, "메인페이지 포스트업로드 성공")
-            const post = res.data;
+            const post = res.data.post;         // 지연님 .post 제가 추가함 
             post.sort(compareBy_ASC("postId"));
             function compareBy_ASC(key) {
                 return function (a, b) {

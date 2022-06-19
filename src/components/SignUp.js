@@ -4,9 +4,10 @@ import styled, { isStyledComponent } from 'styled-components';
 import { Button, Input } from '../elements';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loadUserMW } from '../redux/modules/user';
+import { loadUserMW, registerDB } from '../redux/modules/user';
 import { authApi } from '../shared/api';
-export const SignUp = ({ onClick, signUp }) => {
+import axios from "axios";
+export const SignUp = ({ onClick, setSignUp }) => {
     const dispatch = useDispatch();
 
     const regExpId = /^[0-9a-zA-Z]+$/;  // 영문 숫자면 됨 
@@ -50,9 +51,12 @@ export const SignUp = ({ onClick, signUp }) => {
             id: id,
             pw: pw,
         }
-        // authApi.signUp(formData);
-        authApi.signUp(data);
+        dispatch(registerDB(formData))
 
+
+        setSignUp(false);
+        // authApi.signUp(formData);
+        // authApi.signUp(data);
     }
     const selectFile = (e) => {
         // setFileName(e.target.value.split('\\')[2]);

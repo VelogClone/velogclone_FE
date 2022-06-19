@@ -40,38 +40,38 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
   };
 
   return (
-            <Card sx={{ maxWidth: 600 }}>
-              <CardMedia
-                component="img"
-                height="194"
-                image={postImage}
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {postTitle}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {postContent}
-                </Typography>
-                {postDate} /
-                {commentCount}개의 댓글
-                <hr />
-              </CardContent>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    {userImage}
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                }
-                title={nickname}
-              />
-            </Card>
+    <Card sx={{ maxWidth: 600 }}>
+      <CardMedia
+        component="img"
+        height="194"
+        image={postImage}
+        alt="Paella dish"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {postTitle}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {postContent}
+        </Typography>
+        {postDate} /
+        {commentCount}개의 댓글
+        <hr />
+      </CardContent>
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            {userImage}
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+        }
+        title={nickname}
+      />
+    </Card>
 
   );
 }

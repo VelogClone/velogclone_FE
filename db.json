@@ -1,11 +1,20 @@
 {
+  "api_login": [
+    {
+      "name": "박승현"
+    }
+  ],
   "api_signup": [
     {
       "name": "박승현",
       "email": "aaa@aaa.com"
+    },
+    {
+      "id": "aaa",
+      "pw": "aaaa1234!"
     }
   ],
-  "posts": [
+  "api_posts": [
     {
       "id": 1,
       "postTitle": "test",

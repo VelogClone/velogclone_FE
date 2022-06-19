@@ -25,18 +25,18 @@ const Main = () => {
             <div>
                 <Container sx={{ py: 4 }} maxWidth="md">
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        {post_list.map((post) => {
+                        {post_list.map((post, idx) => {
                             return (
-                                <Grid item xs={4} sm={4} md={4} key={post.id}>
+                                <Grid item xs={4} sm={4} md={4} key={idx}>
                                     <div onClick={() => navigate("/detail/" + post.id)}>
-                                        <p><RecipeReviewCard
+                                        <div><RecipeReviewCard
                                             postImage={post.postImage}
                                             postTitle={post.postTitle}
                                             postContent={post.postContent}
                                             postDate={post.postDate}
                                             userImage={post.userImage}
                                             commentCount={post.commentCount}
-                                            nickname={post.nickname} /></p>
+                                            nickname={post.nickname} /></div>
                                     </div>
                                 </Grid>
                             )

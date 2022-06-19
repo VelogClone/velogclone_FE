@@ -6,11 +6,18 @@ import ControlledOpenSelect from './Dropdown';
 import Modal from './Modal';
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineMenu } from 'react-icons/ai';
+import { useSelector } from 'react-redux/es/exports';
 import { } from '../header.css';
+import { deleteUser } from '../redux/modules/user';
+import { useDispatch } from 'react-redux/es/exports';
 const Header = () => {
+    const is_login = useSelector(state => state.user.is_login);
+    console.log(is_login)
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
     const [drop, setDrop] = useState(false);
+
 
     const openModal = () => {
         setModalOpen(true);
@@ -19,7 +26,9 @@ const Header = () => {
         setModalOpen(false);
     };
 
-
+    const logout = () => {
+        dispatch(deleteUser());
+    }
     return (
         <>
             <Container>
@@ -29,12 +38,12 @@ const Header = () => {
                         <FaMoon />
                         <BsFillSunFill />
                     </div>
-                    <Btn onClick={openModal} >로그인</Btn>
+                    {!is_login && <Btn onClick={openModal} >로그인</Btn>}
                     <AiOutlineMenu
                         className='menu-btn'
                         onClick={() => { { setDrop(!drop) } }}
                     />
-                    <Btn>로그아웃</Btn>
+                    {is_login && <Btn onClick={logout} >로그아웃</Btn>}
 
                     {/* <ControlledOpenSelect></ControlledOpenSelect> */}
                     <Modal open={modalOpen} close={closeModal} header="Modal heading">
@@ -79,6 +88,7 @@ const Btn = styled.span`
     margin:0 30px;
     border-radius:20px;
     padding: 10px 14px;
+    cursor: pointer;
 `;
 
 const DropdownMenu = styled.ul`

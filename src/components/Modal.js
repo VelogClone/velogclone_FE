@@ -39,8 +39,8 @@ const Modal = (props) => {
                             <div>환영합니다!</div>
 
                         </div>
-                        {!signUp ? <SignIn onClick={handleMode} />
-                            : <SignUp />}
+                        {signUp ? <SignUp setSignUp={setSignUp} />
+                            : <SignIn onClick={handleMode} close={close} setSignUp={setSignUp} />}
 
 
 
