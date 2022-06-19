@@ -54,5 +54,37 @@ const Profile = styled.div`
         object-fit : cover;
     }
 `;
+const Nickname = styled.div`
+    position : absolute;
+    top : 10%;
+    left : 130px;
+    font-size: 22px;
+    font-weight : bolder;
+`;
 
-export { Title, UpdateButton, Container, Profile }
+const CommentCount = styled.div`
+    display : flex;
+    margin-top : 2rem;
+    font-size: 20px;
+    font-weight : bolder;
+`;
+
+const Input = styled.textarea`
+    display : flex;
+    margin-top : 1rem;
+    width : 99%;
+    height : 100px;
+    border : 1px solid lightgray;
+`;
+
+const Button = styled.button`
+    display : flex;
+    margin-left:auto;
+    margin-top : 1rem;
+    width : 120px;
+    height : 30px;
+    color : white;
+    font-weight : bolder;
+`;
+
+export { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button }
