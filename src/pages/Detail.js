@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { deletePostDB } from "../redux/modules/post";
 import { postApi, commentApi } from "../shared/api";
 import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button } from "../styled/DetailCss";
 
@@ -19,6 +20,12 @@ const Detail = () => {
     const [comment, setComment] = useState([]);
 
     console.log(card)
+
+    const deleteCard = () => {
+        dispatch(deletePostDB(postId))
+        navigate('/')
+    }
+
     useEffect(() => {
         console.log("왜 안되냐고...")
         postApi.detail(postId).then((res) => {
@@ -42,8 +49,8 @@ const Detail = () => {
                 <div>{card.postDate}</div>
                 {(userName === card.nickname) &&
                     <>
-                        <button>수정</button>
-                        <button>삭제</button>
+                        <button onClick={() => navigate(`/update/${postId}`)} >수정</button>
+                        <button onClick={deleteCard} >삭제</button>
                     </>
                 }
 

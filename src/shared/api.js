@@ -60,7 +60,9 @@ export const authApi = {
 export const postApi = {
     main: () => api.get("api/posts"),
     detail: (postId) => api.get(`api/posts/${postId}`),
-    addPost: (formData) => ImgApi.post('/api/posts', formData)
+    addPost: (formData) => ImgApi.post('/api/posts', formData),
+    updatePost: (id, formData) => ImgApi.put('/api/posts/' + id, formData),
+    deletePost: (id) => api.delete('/api/posts/' + id)
 }
 
 export const commentApi = {

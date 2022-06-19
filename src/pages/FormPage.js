@@ -5,6 +5,7 @@ import { Button, Input } from '../elements';
 import { addPostDB } from '../redux/modules/post';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import { postApi } from '../shared/api';
 const FormPage = ({ mode }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const FormPage = ({ mode }) => {
     const [fileImage, setFileImage] = useState('');
     const [inputText, setInputText] = useState('');
     const [areaText, setAreaText] = useState('');
+    const [card, setCard] = useState('');
 
     const selectFile = (e) => {
         // setFileName(e.target.value.split('\\')[2]);
@@ -21,11 +23,12 @@ const FormPage = ({ mode }) => {
     };
 
     const getData = () => {
+
         let formData = new FormData();
 
-        formData.append("postTitle", inputText);
-        formData.append("postImage", fileInput?.current.files[0]);
-        formData.append("postContent", areaText);
+        formData.append("postTitle", inputText ? inputText : card.postTitle);
+        formData.append("postImage", fileInput.current.files[0] ? fileInput.current.files[0] : card.postImage)
+        formData.append("postContent", areaText ? areaText : card.postContent);
 
         for (let value of formData.values()) {
             console.log(value);
@@ -33,12 +36,27 @@ const FormPage = ({ mode }) => {
         return formData;
     }
 
-    const writeClick = () => {
-        // let formData = new FormData();
+    useEffect(() => {
+        postApi.detail(id).then((res) => {
+            console.log(res, "수정 페이지 로드 성공")
+            setCard(res.data.post);
+        })
+            .catch((err) => {
+                console.log(err.response.data, "수정 페이지 로드 오류");
+            })
+    }, [])
 
-        // formData.append("postTitle", inputText);
-        // formData.append("postImage", fileInput?.current.files[0]);
-        // formData.append("postContent", areaText);
+    const writeClick = () => {
+        if (!(inputText && fileInput.current.files[0] && areaText)) {
+            alert('모든 항목을 다 입력해주세요.')
+            return;
+        }
+        console.log('if 통과')
+        let formData = new FormData();
+
+        formData.append("postTitle", inputText);
+        formData.append("postImage", fileInput?.current.files[0]);
+        formData.append("postContent", areaText);
         const data = getData();
 
         dispatch(addPostDB(data))
@@ -54,6 +72,7 @@ const FormPage = ({ mode }) => {
                 <InputTitle
                     placeholder='제목을 입력하세요'
                     onChange={(e) => { setInputText(e.target.value) }}
+                    defaultValue={card.postTitle}
                 />
                 <Line />
 
@@ -65,7 +84,8 @@ const FormPage = ({ mode }) => {
                     alignItems: 'center',
                 }}>
                     <img style={{ width: "400px", height: "300px" }}
-                        src={fileImage ? fileImage : null
+                        src={mode === 'write' ? (fileImage ? fileImage : null)
+                            : (fileImage ? fileImage : card.postImage)
                             // mode === 'write'
                             //   ? fileImage
                             //     ? fileImage
@@ -92,6 +112,7 @@ const FormPage = ({ mode }) => {
                 <Textarea
                     placeholder="내용을 입력하세요."
                     onChange={(e) => { setAreaText(e.target.value) }}
+                    defaultValue={card.postContent}
                 />
                 <Footer>
                     <span
@@ -105,8 +126,8 @@ const FormPage = ({ mode }) => {
                         onClick={() => { navigate(-1); }}
                     >나가기</span>
                     {mode === 'write' ? <Button _onClick={writeClick} >출간하기</Button>
-                    :     <Button _onClick={updateClick} >수정하기</Button>
-                }
+                        : <Button _onClick={updateClick} >수정하기</Button>
+                    }
                 </Footer>
 
             </WriteContainer >
