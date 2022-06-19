@@ -20,11 +20,6 @@ const api = axios.create({
 if (localStorage.getItem('jwtToken'))
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
-
-
-
-
-
 export const authApi = {
     // signUp: async (data) => {
     //     console.log(data)
@@ -60,12 +55,7 @@ export const authApi = {
 export const postApi = {
     main: () => api.get("api/posts"),
     detail: (postId) => api.get(`api/posts/${postId}`),
-    addPost: (formData) => ImgApi.post('/api/posts', formData)
+    addPost: (formData) => ImgApi.post('/api/posts', formData),
+    addComment: (id, data) => api.post(`/api/comments/${id}`,data)
 }
 
-export const commentApi = {
-    commentList: () => api.get("/comment")
-    // commentWrite: 
-    // commentUpdate:
-    // commentDelete:
-}
