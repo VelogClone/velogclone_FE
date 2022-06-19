@@ -17,27 +17,17 @@ const Detail = () => {
     //게시물에 등록된 코멘트 가져오기
     const [comment, setComment] = useState([]);
     const userName = useSelector((state) => state.user.nickname);
-
+    console.log(card)
     useEffect(() => {
         postApi.detail(postId).then((res) => {
             console.log(res, "상세페이지 포스트업로드 성공")
-            setCard(res.data);
-            console.log(card)
-            
+            setCard(res.data.post);            
         })
             .catch((err) => {
                 console.log(err.response.data, "상세페이지 포스트업로드 오류");
             })
-        // commentApi.commentList().then((res) => {
-        //     console.log(res, "상세페이지 댓글업로드 성공")
-        //     const commentFilter = res.data.filter((x) => x.postId == postId)
-        //     console.log(commentFilter);
-        //     setComment(commentFilter);
-        // })
-        //     .catch((err) => {
-        //         console.log(err.response.data, "상세페이지 댓글업로드 오류");
-        //     })
     }, [])
+    
     useEffect(() => {
         console.log(card, comment);
         console.log(card.postTitle, comment.comment);

@@ -11,9 +11,7 @@ const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const post_list = useSelector((state) => state.post.list)
-    console.log(post_list);
-    const _ID = post_list.map((x) => x.postId)
-    console.log(_ID)
+    // console.log(post_list);
 
     React.useEffect(() => {
         dispatch(mainpostAPI());
@@ -31,7 +29,7 @@ const Main = () => {
                         {post_list.map((post, idx) => {
                             return (
                                 <Grid item xs={4} sm={4} md={4} key={idx}>
-                                    <div onClick={navigate("/detail/"+idx)}>
+                                    <div onClick={() => navigate("/detail/"+ post.postId)}>
                                         <div><RecipeReviewCard
                                             postImage={post.postImage}
                                             postTitle={post.postTitle}
