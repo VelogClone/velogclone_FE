@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { postApi, commentApi } from "../shared/api";
 import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button } from "../styled/DetailCss";
 
 const Detail = () => {
+    const userName = useSelector(state => state.user.nickname)
+    console.log(userName);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const comment_Ref = useRef();
@@ -46,21 +48,25 @@ const Detail = () => {
             <Title>{card.postTitle}</Title>
             <UpdateButton>
                 <div>{card.postDate}</div>
-                <div>
-                    <button>수정</button>
-                    <button>삭제</button></div></UpdateButton>
+                {(userName === card.nickname) &&
+                    <>
+                        <button>수정</button>
+                        <button>삭제</button>
+                    </>
+                }
+            </UpdateButton>
             <Container>
                 <div>{card.postContent}</div>
                 <img src={card.postImage} alt="null" />
             </Container>
-            <div style={{position :"relative", marginLeft:"2%"}}>
+            <div style={{ position: "relative", marginLeft: "2%" }}>
                 <Profile>
                     <img src={card.userImage} alt="null" />,
                 </Profile>
                 <Nickname>{card.nickname}</Nickname>
             </div>
             <CommentCount>{card.commentCount}개의 댓글</CommentCount>
-            <Input type="text" placeholder="댓글을 작성하세요" ref={comment_Ref}/>
+            <Input type="text" placeholder="댓글을 작성하세요" ref={comment_Ref} />
             <Button>댓글작성</Button>
             <div>
                 {comment.map((data) => {

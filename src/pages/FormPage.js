@@ -1,58 +1,84 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ToastEditor from '../components/ToastEditor';
+import ToastEditor from '../components';
 import { Button, Input } from '../elements';
+import { addPostDB } from '../redux/modules/post';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const FormPage = ({ mode }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const fileInput = useRef();
-    const [fileName, setFileName] = useState('');
+    // const [fileName, setFileName] = useState('');
     const [fileImage, setFileImage] = useState('');
     const [inputText, setInputText] = useState('');
     const [areaText, setAreaText] = useState('');
 
     const selectFile = (e) => {
-        setFileName(e.target.value.split('\\')[2]);
+        // setFileName(e.target.value.split('\\')[2]);
         setFileImage(URL.createObjectURL(fileInput.current.files[0]));
     };
+
+    const writeClick = () => {
+        let formData = new FormData();
+
+        formData.append("postTitle", inputText);
+        formData.append("postImage", fileInput?.current.files[0]);
+        formData.append("postContent", areaText);
+
+        for (let value of formData.values()) {
+            console.log(value);
+        }
+
+        dispatch(addPostDB(formData))
+        navigate(-1);
+
+    }
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', color: 'white' }}>
             <WriteContainer>
                 <InputTitle
                     placeholder='제목을 입력하세요'
+                    onChange={(e) => { setInputText(e.target.value) }}
                 />
                 <Line />
-                <Input
-                    placeholder='파일을 선택해주세요.'
-                    value={fileName || ''}
-                    _disabled={true}
-                    width='100%'
-                />
 
-                <Button width='150px'>
-                    <label htmlFor='file' style={{ cursor: 'pointer' }}>
-                        파일 찾기
-                    </label>
-                </Button>
 
-                <input
-                    id='file'
-                    ref={fileInput}
-                    type='file'
-                    style={{ display: 'none' }}
-                    onChange={selectFile}
-                />
                 <div style={{
                     marginTop: '15px',
                     display: 'grid',
                     gridTemplateColumns: '1fr 2fr',
                     alignItems: 'center',
                 }}>
-                    <img style={{ width: "400px", height: "300px" }} ></img>
+                    <img style={{ width: "400px", height: "300px" }}
+                        src={fileImage ? fileImage : null
+                            // mode === 'write'
+                            //   ? fileImage
+                            //     ? fileImage
+                            //     : null
+                            //   : fileImage
+                            //     ? fileImage
+                            //     : commercial?.img
+                        }
+                        alt=''
+                    ></img>
                     <div>
-                        <input type="file" style={{ display: 'none' }} ></input>
-                        <Button>사진 업로드</Button>
+                        <input
+                            id='file'
+                            ref={fileInput}
+                            type='file'
+                            style={{ display: 'none' }}
+                            onChange={selectFile}
+                        />
+                        <Button><label htmlFor='file' style={{ cursor: 'pointer' }}>
+                            사진 업로드
+                        </label></Button>
                     </div>
                 </div>
-                <Textarea placeholder="내용을 입력하세요." />
+                <Textarea
+                    placeholder="내용을 입력하세요."
+                    onChange={(e) => { setAreaText(e.target.value) }}
+                />
                 <Footer>
                     <span
                         style={{
@@ -62,8 +88,9 @@ const FormPage = ({ mode }) => {
                             borderRadius: '10px',
                             cursor: 'pointer',
                         }}
+                        onClick={() => { navigate(-1); }}
                     >나가기</span>
-                    <Button>출간하기</Button>
+                    <Button _onClick={writeClick} >출간하기</Button>
                 </Footer>
 
             </WriteContainer >
@@ -81,7 +108,6 @@ const WriteContainer = styled.div`
     width:50vw;
     height:100vh;
     background-color:#121212;
-        
 `;
 const LeftContainer = styled.div`
     width:50vw;
@@ -102,6 +128,7 @@ const InputTitle = styled.input`
     outline: none;
     background-color: inherit;
     border :none;
+    color: white;
 `;
 const Textarea = styled.textarea`
     width:80%;
@@ -115,6 +142,7 @@ const Textarea = styled.textarea`
     margin-top:10px;
     border-radius:10px;
     color:white;
+    padding:10px;
 `;
 const Footer = styled.footer`
     height: 70px;
