@@ -12,6 +12,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import Container from "@mui/material/Container";
+import { CardProfile, Profile } from './CardBoxCss';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -40,27 +42,28 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
   };
 
   return (
-    <Card sx={{ maxWidth: 600 }}>
+    <Card sx={{ maxWidth: 600 }} >
       <CardMedia
         component="img"
-        height="194"
+        height="160"
         image={postImage}
         alt="Paella dish"
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h7" fontWeight="bolder" textAlign="left" component="div">
           {postTitle}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" textAlign="left" height="60px" resize="none" color="text.secondary">
           {postContent}
         </Typography>
-        {postDate} /
-        {commentCount}개의 댓글
-        <hr />
+        <div style={{ fontSize: "13px", marginTop: "3rem", textAlign: "left" }}>
+          {postDate}{" / "}{commentCount}개의 댓글
+        </div>
+        <hr style={{ borderColor: "white", marginTop: "1rem" }} />
       </CardContent>
-      <CardHeader
+      {/* <CardHeader style={{ marginTop: "-2rem" }}
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar style={{ height: "30px", width: "30px" }} aria-label="recipe">
             {userImage}
           </Avatar>
         }
@@ -70,7 +73,18 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
           </IconButton>
         }
         title={nickname}
-      />
+      /> */}
+      <CardProfile>
+        <div style={{ position: "relative", marginLeft: "5%" }}>
+          <Profile>
+            <div>{userImage}</div>
+          </Profile>
+          <div style={{ position: "absolute", top: "10px", left: "50px", fontWeight: "bolder" }}>{nickname}</div>
+          <IconButton aria-label="add to favorites" style={{ position: "absolute", top: "-5px", right: "-900%" }}>
+            <FavoriteIcon />
+          </IconButton>
+        </div>
+      </CardProfile>
     </Card>
 
   );
