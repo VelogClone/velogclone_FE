@@ -10,14 +10,15 @@ const ImgApi = axios.create({
 if (localStorage.getItem('jwtToken'))
     ImgApi.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
-const api = axios.create({
+export const api = axios.create({
     baseURL: "http://3.35.170.203",
     // baseURL: "http://13.209.14.6",
     headers: {
         "content-type": "application/json;charset=utf-8",
-        accept: "application/json",
+        accept: "application/json,",
     }
 });
+
 if (localStorage.getItem('jwtToken'))
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
@@ -59,7 +60,10 @@ export const postApi = {
     main: () => api.get("api/posts"),
     detail: (postId) => api.get(`api/posts/${postId}`),
     addPost: (formData) => ImgApi.post('/api/posts', formData),
-    addComment: (id, data) => api.post(`/api/comments/${id}`, data),
+    addComment: (id, comment) => api.post(`/api/comments/${id}`, comment,
+        {
+            headers: { "Authorization": `Bearer ${localStorage.getItem('jwtToken')}` }
+        }),
     updatePost: (id, formData) => ImgApi.put('/api/posts/' + id, formData),
     deletePost: (id) => api.delete('/api/posts/' + id)
 }

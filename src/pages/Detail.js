@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { deletePostDB } from "../redux/modules/post";
-import { postApi, commentApi } from "../shared/api";
-import { commentWriteDB } from "../redux/modules/comment";
-import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button } from "../styled/DetailCss";
+import { postApi } from "../shared/api";
+import { commentWriteDB, commentUpdateDB, commentDeleteDB, commentLoadDB } from "../redux/modules/comment";
+import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button, CommProfile, Profile2 } from "../styled/DetailCss";
 
 
 const Detail = () => {
@@ -15,31 +15,57 @@ const Detail = () => {
     const postId = params.id;
     const userName = useSelector((state) => state.user.nickname);
     // console.log(postId)
-    //해당 게시물 가져오기 
-    const [card, setCard] = useState('');
-    //게시물에 등록된 코멘트 가져오기
-    const [comment, setComment] = useState([]);
 
+    // 해당 게시물 가져오기 
+    const [card, setCard] = useState('');
+    // 댓글 입력값 가져오기 
+    const [text, setText] = useState('');
+    const [display, setDisplay] = useState("none")
 
     const deleteCard = () => {
         dispatch(deletePostDB(postId))
         navigate('/')
     }
-
+    // 상세페이지 data 가져오기 
     useEffect(() => {
         postApi.detail(postId).then((res) => {
-            console.log(res, "상세페이지 포스트업로드 성공")
+            console.log(res.data.comments, "상세페이지 포스트업로드 성공")
             setCard(res.data.post);
-            setComment(res.data.comment);
+            dispatch(commentLoadDB(res.data.comments))
         })
             .catch((err) => {
                 console.log(err.response.data, "상세페이지 포스트업로드 오류");
             })
     }, [])
-    // console.log(userName, card.nickname)
-    const handleClick = async () => {
-        dispatch(commentWriteDB(postId, comment)
-        )
+
+    //리덕스에서 댓글 가져오기
+    const comment_list = useSelector((state) => state.comment.comment);
+    console.log(comment_list);
+
+    // 댓글 작성 
+    const commentWrite = async () => {
+        dispatch(commentWriteDB({
+            postId: postId,
+            comment: text,
+        }))
+        setText("");
+        window.location.reload();
+    }
+    // 댓글 수정
+    const commentUpdate = async (e) => {
+        dispatch(commentUpdateDB({
+            commentId: e,
+            comment: text,
+        }))
+        setText("");
+        window.location.reload();
+    }
+
+    // 댓글 삭제
+    const commentDelete = async (e) => {
+        console.log(e)
+        dispatch(commentDeleteDB(e))
+        window.location.reload();
     }
 
     return (
@@ -53,7 +79,6 @@ const Detail = () => {
                         <button onClick={deleteCard} >삭제</button>
                     </div>
                 }
-
             </UpdateButton>
             <Container>
                 <div>{card.postContent}</div>
@@ -66,21 +91,53 @@ const Detail = () => {
                 <Nickname>{card.nickname}</Nickname>
             </div>
             <CommentCount>{card.commentCount}개의 댓글</CommentCount>
+<<<<<<< HEAD
             <Input type="text" placeholder="댓글을 작성하세요" onChange={(e) => { setComment(e.target.value) }} />
             <Button onClick={() => { handleClick() }}>댓글작성</Button>
+=======
+            <Input placeholder="댓글을 작성하세요" onChange={(e) => { setText(e.target.value) }} />
+            <Button style={{ display: "flex", marginLeft: "auto", alignItems: "center", justifyContent: "center" }} onClick={() => { commentWrite() }}>댓글 작성</Button>
+>>>>>>> adf47d518723c7c6f4d0ef880d48bf8bc34e3a9b
             <div>
-                {/* {comment.map((data) => {
+                {comment_list.map((data) => {
                     return (
                         <div key={data.commentId}>
+<<<<<<< HEAD
                             <div>{data.userImage}</div>
                             <div>{data.nickname}</div>
                             <div>{data.commnetDate}</div>
                             <div>{data.comment}</div>
                             <button>수정</button>
-                            <button>삭제</button> */}
-                {/* </div>
+                            <button>삭제</button> * /}
+    {/* </div>
+=======
+                            <CommProfile>
+                                <div style={{ position: "relative", marginLeft: "2%" }}>
+                                    <Profile2>
+                                        <div>{data.userImage}</div>
+                                    </Profile2>
+                                    <div style={{ position: "relative" }}>
+                                        <div style={{ position: "absolute", top: "-50px", left: "70px", fontWeight: "bolder" }}>{data.nickname}</div>
+                                        <div style={{ position: "absolute", top: "-28px", left: "61px", fontSize: "14px", width: "120px" }}>{data.commentDate}</div>
+                                    </div>
+                                </div>
+                                {(userName === data.nickname) &&
+                                    <div>
+                                        <button onClick={() => { setDisplay("") }}>수정</button>
+                                        <button onClick={() => { commentDelete(data.commentId) }}>삭제</button>
+                                    </div>
+                                }
+                            </CommProfile>
+                            <div style={{ textAlign: "left", marginTop: "1rem" }}>{data.comment}</div>
+                            <div style={{display:`${display}`}}>
+                                <Input placeholder="댓글을 수정하실껀가요?" onChange={(e) => { setText(e.target.value) }} />
+                                <Button onClick={() => { setDisplay("none") }}>취소</Button>
+                                <Button onClick={() => { commentUpdate(data.commentId) }}>수정하기</Button>
+                            </div>
+                        </div>
+>>>>>>> adf47d518723c7c6f4d0ef880d48bf8bc34e3a9b
                     )
-                })} */}
+                })}
             </div>
         </div>
     )
