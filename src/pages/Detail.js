@@ -91,26 +91,12 @@ const Detail = () => {
                 <Nickname>{card.nickname}</Nickname>
             </div>
             <CommentCount>{card.commentCount}개의 댓글</CommentCount>
-<<<<<<< HEAD
-            <Input type="text" placeholder="댓글을 작성하세요" onChange={(e) => { setComment(e.target.value) }} />
-            <Button onClick={() => { handleClick() }}>댓글작성</Button>
-=======
             <Input placeholder="댓글을 작성하세요" onChange={(e) => { setText(e.target.value) }} />
             <Button style={{ display: "flex", marginLeft: "auto", alignItems: "center", justifyContent: "center" }} onClick={() => { commentWrite() }}>댓글 작성</Button>
->>>>>>> adf47d518723c7c6f4d0ef880d48bf8bc34e3a9b
             <div>
                 {comment_list.map((data) => {
                     return (
                         <div key={data.commentId}>
-<<<<<<< HEAD
-                            <div>{data.userImage}</div>
-                            <div>{data.nickname}</div>
-                            <div>{data.commnetDate}</div>
-                            <div>{data.comment}</div>
-                            <button>수정</button>
-                            <button>삭제</button> * /}
-    {/* </div>
-=======
                             <CommProfile>
                                 <div style={{ position: "relative", marginLeft: "2%" }}>
                                     <Profile2>
@@ -129,13 +115,12 @@ const Detail = () => {
                                 }
                             </CommProfile>
                             <div style={{ textAlign: "left", marginTop: "1rem" }}>{data.comment}</div>
-                            <div style={{display:`${display}`}}>
+                            <div style={{ display: `${display}` }}>
                                 <Input placeholder="댓글을 수정하실껀가요?" onChange={(e) => { setText(e.target.value) }} />
                                 <Button onClick={() => { setDisplay("none") }}>취소</Button>
                                 <Button onClick={() => { commentUpdate(data.commentId) }}>수정하기</Button>
                             </div>
                         </div>
->>>>>>> adf47d518723c7c6f4d0ef880d48bf8bc34e3a9b
                     )
                 })}
             </div>
