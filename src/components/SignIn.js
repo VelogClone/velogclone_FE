@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Button, Input } from '../elements';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { authApi } from '../shared/api';
 import { useDispatch } from 'react-redux';
 import { setLoginDB } from '../redux/modules/user';
+import { KAKAO_AUTH_URL } from '../shared/KakaoAuth';
 export const SignIn = ({ onClick, setSignUp, close }) => {
     const dispatch = useDispatch();
-    const regExpId = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    const regExpPw = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
 
     const sign_in = async () => {
-        await dispatch(setLoginDB(id, pw))
+        await dispatch(setLoginDB(email, pw))
             .then(success => {
                 if (success) {
                     alert('로그인 성공');
@@ -33,10 +29,10 @@ export const SignIn = ({ onClick, setSignUp, close }) => {
             <h3>로그인</h3>
             <div>
                 <Input
-                    placeholder='아이디를 입력하세요.'
+                    placeholder='이메일을 입력하세요.'
                     width="92.8%"
                     _onChange={(e) => {
-                        setId(e.target.value);
+                        setEmail(e.target.value);
                     }}
                 />
 
@@ -49,7 +45,13 @@ export const SignIn = ({ onClick, setSignUp, close }) => {
 
 
             <Button width="100%" _onClick={sign_in} >로그인</Button>
-            <div style={{ marginTop: '100px' }}>
+            <a href={KAKAO_AUTH_URL}>
+                <div
+                    className="kakao_btn"
+                >
+                </div>
+            </a>
+            <div style={{ marginTop: '50px' }}>
                 <p>아직 회원이 아니신가요?</p>
                 <span style={{ color: '#96F2D7', cursor: 'pointer' }} onClick={onClick}>회원가입</span>
             </div>

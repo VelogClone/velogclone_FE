@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { mainpostAPI } from "../redux/modules/post";
@@ -6,15 +6,37 @@ import RecipeReviewCard from "../styled/CardBox";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { integerPropType } from "@mui/utils";
-
+import { kakaoLoginDB } from '../redux/modules/user'
 const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const post_list = useSelector((state) => state.post.list)
-    // console.log(post_list);
 
+    const getKakaoProfile = async () => {
+        try {
+            // Kakao SDK API를 이용해 사용자 정보 획득
+            let data = await window.Kakao.API.request({
+                url: "/v2/user/me",
+            });
+            console.log(data.kakao_account.email);
+            dispatch(kakaoLoginDB({
+                email: data.kakao_account.email,
+                nickname: data.properties.nickname,
+                userImage: data.properties.profile_image,
+            })
+            )
+        } catch (err) {
+            console.log(err);
+        }
+    };
     React.useEffect(() => {
         dispatch(mainpostAPI());
+        console.log('main useEffect')
+        if (localStorage.getItem('KakaoToken')) {
+            console.log('main 안 if 문')
+            getKakaoProfile();
+
+        }
     }, []);
 
     return (

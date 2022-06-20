@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ToastEditor from '../components';
 import { Button, Input } from '../elements';
-import { addPostDB } from '../redux/modules/post';
+import { addPostDB, updatePostDB } from '../redux/modules/post';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { postApi } from '../shared/api';
@@ -51,7 +51,6 @@ const FormPage = ({ mode }) => {
             alert('모든 항목을 다 입력해주세요.')
             return;
         }
-        console.log('if 통과')
         let formData = new FormData();
 
         formData.append("postTitle", inputText);
@@ -65,6 +64,8 @@ const FormPage = ({ mode }) => {
 
     const updateClick = () => {
         const data = getData();
+        dispatch(updatePostDB(id, data));
+        navigate('/');
     }
     return (
         <div style={{ display: 'flex', color: 'white' }}>

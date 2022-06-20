@@ -10,10 +10,10 @@ import axios from "axios";
 export const SignUp = ({ onClick, setSignUp }) => {
     const dispatch = useDispatch();
 
-    const regExpId = /^[0-9a-zA-Z]+$/;  // 영문 숫자면 됨 
+    const regExpId = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     const regExpPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/; //영문,숫자,특문 최소 하나씩 최소8자리이상
 
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [pw_check, setPw_check] = useState('');
     const [nick, setNick] = useState('');
@@ -24,8 +24,8 @@ export const SignUp = ({ onClick, setSignUp }) => {
 
     const sign_up = () => {
 
-        if (!regExpId.test(id) || id === '') {
-            alert('올바른 아이디 형식이 아닙니다!')
+        if (!regExpId.test(email) || email === '') {
+            alert('올바른 이메일 형식이 아닙니다!')
 
             return;
         }
@@ -38,25 +38,28 @@ export const SignUp = ({ onClick, setSignUp }) => {
             alert('비밀번호가 일치하지 않습니다!')
             return;
         }
+        if (nick === '') {
+            alert('닉네임을 입력해주세요!')
+            return;
+        }
 
         let formData = new FormData();
-        formData.append("nickname", id);
+        formData.append("email", email);
+        formData.append("nickname", nick);
         formData.append("password", pw);
         formData.append("passwordCheck", pw_check);
         formData.append("userImage", fileInput?.current.files[0]);
         for (let value of formData.values()) {
             console.log(value);
         }
-        const data = {
-            id: id,
-            pw: pw,
-        }
+        // const data = {
+        //     id: id,
+        //     pw: pw,
+        // }
         dispatch(registerDB(formData))
 
 
         setSignUp(false);
-        // authApi.signUp(formData);
-        // authApi.signUp(data);
     }
     const selectFile = (e) => {
         // setFileName(e.target.value.split('\\')[2]);
@@ -73,10 +76,10 @@ export const SignUp = ({ onClick, setSignUp }) => {
             <h3>회원가입</h3>
             <div>
                 <Input
-                    placeholder='아이디를 입력하세요.'
+                    placeholder='이메일을 입력하세요.'
                     width="57%"
                     _onChange={(e) => {
-                        setId(e.target.value);
+                        setEmail(e.target.value);
                     }}
                 />
                 <Button width='33%'>중복확인</Button>
@@ -92,6 +95,11 @@ export const SignUp = ({ onClick, setSignUp }) => {
             <Input placeholder='비밀번호를 다시 입력하세요.' width="92.8%"
                 _onChange={(e) => {
                     setPw_check(e.target.value);
+                }}
+            />
+            <Input placeholder='닉네임을 입력하세요.' width="92.8%"
+                _onChange={(e) => {
+                    setNick(e.target.value);
                 }}
             />
 

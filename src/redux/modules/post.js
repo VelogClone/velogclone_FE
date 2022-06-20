@@ -1,3 +1,4 @@
+import { AddAlarm } from "@mui/icons-material";
 import axios from "axios";
 import { postApi } from "../../shared/api";
 
@@ -14,13 +15,13 @@ export function mainpost(post_list) {
     return { type: MAINLOAD, post_list };
 }
 export function addPost(post) {
-    return { type: MAINLOAD, post };
+    return { type: ADD, post };
 }
-export function updatePost(id, post) {
-    return { type: UPDATE, id, post };
+export function updatePost(id, postImage) {
+    return { type: UPDATE, id, postImage };
 }
 export function deletePost(id) {
-    return { type: UPDATE, id };
+    return { type: DELETE, id };
 }
 
 
@@ -52,27 +53,26 @@ export const mainpostAPI = () => {
 export const addPostDB = (formData) => {
     return async function (dispatch) {
         await postApi.addPost(formData)
-        // .then((res) => {
-        //     console.log('업로드 성공')
-        //     // const post = res.data;
-        //     // dispatch(addPost(post));
-        // })
-        // .catch((err) => {
-        //     console.log(err, "업로드 오류");
-        // })
+            .then((res) => {
+                console.log('업로드 성공')
+                const post = res.data;
+                dispatch(addPost(post));
+            })
+            .catch((err) => {
+                console.log(err, "업로드 오류");
+            })
     }
 }
 export const updatePostDB = (id, formData) => {
     return async function (dispatch) {
         await postApi.updatePost(id, formData)
-        // .then((res) => {
-        //     console.log('업로드 성공')
-        //     // const post = res.data;
-        //     // dispatch(addPost(post));
-        // })
-        // .catch((err) => {
-        //     console.log(err, "업로드 오류");
-        // })
+            .then((res) => {
+                console.log('업데이트 성공')
+                dispatch(updatePost(id, res.data.postImage));
+            })
+            .catch((err) => {
+                console.log(err, "업데이트 오류");
+            })
     }
 }
 
@@ -82,7 +82,7 @@ export const deletePostDB = (id) => {
             .then((res) => {
                 console.log('삭제 성공')
                 // const post = res.data;
-                // dispatch(addPost(post));
+                dispatch(deletePost(id));
             })
             .catch((err) => {
                 console.log(err, "삭제 오류");
@@ -96,14 +96,21 @@ export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
         case "post/MAINPOST": {
             const posts = [...action.post_list]
-            console.log(posts)
             return { list: posts }
         }
         case "post/ADD": {
-            const post = [...action.post]
-            console.log(post)
-            return { list: [...state.list, action.post] };
+            return { list: [...state.list, action.post.post] };
         }
+
+        case "post/UPDATE": {
+            const new_post_list = state.list.map((p, i) => {
+                if (p.postId === parseInt(action.id))
+                    return { ...p, postImage: action.postImage }
+                return { ...p }
+            })
+            return { list: new_post_list };
+        }
+
         case "post/DELETE": {
             const new_post_list = state.list.filter((p) => {
                 return parseInt(action.id) !== p.id

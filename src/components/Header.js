@@ -12,7 +12,6 @@ import { deleteUser } from '../redux/modules/user';
 import { useDispatch } from 'react-redux/es/exports';
 const Header = () => {
     const is_login = useSelector(state => state.user.is_login);
-    console.log(is_login)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
@@ -41,7 +40,7 @@ const Header = () => {
                     {!is_login && <Btn onClick={openModal} >로그인</Btn>}
                     <AiOutlineMenu
                         className='menu-btn'
-                        onClick={() => { { setDrop(!drop) } }}
+                        onClick={() => { setDrop(!drop) }}
                     />
                     {is_login && <Btn onClick={logout} >로그아웃</Btn>}
 

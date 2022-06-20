@@ -20,7 +20,6 @@ const Detail = () => {
     //게시물에 등록된 코멘트 가져오기
     const [comment, setComment] = useState([]);
 
-    console.log(card)
 
     const deleteCard = () => {
         dispatch(deletePostDB(postId))
@@ -28,7 +27,6 @@ const Detail = () => {
     }
 
     useEffect(() => {
-        console.log("왜 안되냐고...")
         postApi.detail(postId).then((res) => {
             console.log(res, "상세페이지 포스트업로드 성공")
             setCard(res.data.post);
@@ -39,9 +37,9 @@ const Detail = () => {
             })
     }, [])
     // console.log(userName, card.nickname)
-    const handleClick = async() => {
+    const handleClick = async () => {
         dispatch(commentWriteDB(postId, comment)
-         )
+        )
     }
 
     return (
@@ -68,8 +66,8 @@ const Detail = () => {
                 <Nickname>{card.nickname}</Nickname>
             </div>
             <CommentCount>{card.commentCount}개의 댓글</CommentCount>
-            <Input type="text" placeholder="댓글을 작성하세요" onChange={(e) => {setComment(e.target.value)}} />
-            <Button onClick={() => {handleClick()}}>댓글작성</Button>
+            <Input type="text" placeholder="댓글을 작성하세요" onChange={(e) => { setComment(e.target.value) }} />
+            <Button onClick={() => { handleClick() }}>댓글작성</Button>
             <div>
                 {/* {comment.map((data) => {
                     return (
@@ -80,7 +78,7 @@ const Detail = () => {
                             <div>{data.comment}</div>
                             <button>수정</button>
                             <button>삭제</button> */}
-                        {/* </div>
+                {/* </div>
                     )
                 })} */}
             </div>
