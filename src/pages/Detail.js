@@ -6,7 +6,8 @@ import { deletePostDB } from "../redux/modules/post";
 import { postApi } from "../shared/api";
 import { commentWriteDB, commentUpdateDB, commentDeleteDB, commentLoadDB } from "../redux/modules/comment";
 import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button, CommProfile, Profile2 } from "../styled/DetailCss";
-
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Viewer } from "@toast-ui/react-editor";
 
 const Detail = () => {
     const navigate = useNavigate();
@@ -18,9 +19,11 @@ const Detail = () => {
 
     // 해당 게시물 가져오기 
     const [card, setCard] = useState('');
+    const markRef = useRef("");
     // 댓글 입력값 가져오기 
     const [text, setText] = useState('');
     const [display, setDisplay] = useState("none")
+    console.log(card.postContentMd, display);
 
     const deleteCard = () => {
         dispatch(deletePostDB(postId))
@@ -29,14 +32,18 @@ const Detail = () => {
     // 상세페이지 data 가져오기 
     useEffect(() => {
         postApi.detail(postId).then((res) => {
-            console.log(res.data.comments, "상세페이지 포스트업로드 성공")
+            console.log(res, "상세페이지 포스트업로드 성공")
             setCard(res.data.post);
+            markRef.current.getInstance().setMarkdown(res.data.post.postContentMd);
+            console.log(markRef)
             dispatch(commentLoadDB(res.data.comments))
+            
         })
             .catch((err) => {
                 console.log(err.response.data, "상세페이지 포스트업로드 오류");
             })
     }, [])
+
 
     //리덕스에서 댓글 가져오기
     const comment_list = useSelector((state) => state.comment.comment);
@@ -67,6 +74,7 @@ const Detail = () => {
         dispatch(commentDeleteDB(e))
         window.location.reload();
     }
+    console.log(markRef)
 
     return (
         <div style={{ margin: "auto", width: "80vw", maxWidth: "70%", paddingBottom: "10%" }}>
@@ -81,8 +89,9 @@ const Detail = () => {
                 }
             </UpdateButton>
             <Container>
-                <div>{card.postContent}</div>
-                <img src={card.postImage} alt="null" />
+                <Viewer ref={markRef} />
+                {/* <div>{card.postContent}</div>
+                <img src={card.postImage} alt="null" /> */}
             </Container>
             <div style={{ position: "relative", marginLeft: "2%" }}>
                 <Profile>
