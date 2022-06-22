@@ -18,10 +18,17 @@ export const api = axios.create({
         accept: "application/json,",
     }
 });
+api.interceptors.request.use(function (config) {
+    const accessToken = localStorage.getItem('jwtToken')
+    if (accessToken !== undefined) {
+        config.headers.common["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
+});
 
-if (localStorage.getItem('jwtToken')) {
-    api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
-}
+// if (localStorage.getItem('jwtToken')) {
+//     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
+// }
 // if (localStorage.getItem('KakaoToken')) {
 //     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('KakaoToken')}`;
 // }

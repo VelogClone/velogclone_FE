@@ -84,7 +84,7 @@ export const kakaoLoginDB = (userInfo) => {
                 console.log(res.data.token);
                 localStorage.setItem("KakaoToken", res.data.token);
                 console.log(userInfo)
-                dispatch(setUser(userInfo.email, userInfo.nickname));
+                dispatch(setUser(userInfo));
                 // window.location.replace("/");
             })
             .catch(err => {

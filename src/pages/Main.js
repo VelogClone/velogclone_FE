@@ -20,6 +20,8 @@ const Main = () => {
                 url: "/v2/user/me",
             })
                 .then(res => {
+                    console.log('카카오프로필 받아옴')
+
                     const userInfo = {
                         email: res.kakao_account.email,
                         nickname: res.properties.nickname,
@@ -33,8 +35,8 @@ const Main = () => {
     };
     React.useEffect(() => {
         dispatch(mainpostAPI());
-        // if (localStorage.getItem('accessToken')) {
-        //     getKakaoProfile();
+        // if (localStorage.getItem('KakaoToken')) {
+        getKakaoProfile();
         // }
     }, []);
 
