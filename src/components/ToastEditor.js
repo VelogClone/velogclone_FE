@@ -7,20 +7,24 @@ import { useDispatch } from 'react-redux';
 import { AllInbox } from '@mui/icons-material';
 import axios from 'axios';
 import { postApi } from '../shared/api';
-export default function ToastEditor({ text, option }) {
+export default function ToastEditor({ text, option, card }) {
     const dispatch = useDispatch();
-    const editorRef = React.useRef('');
+    // const editorRef = React.useRef('');
+    const editorRef = React.useRef(card?.postContentMd);
     const handleRegisterButton = () => {
         // // 입력창에 입력한 내용을 HTML 태그 형태로 취득
         // console.log(editorRef.current?.getInstance().getHTML());
         // // 입력창에 입력한 내용을 MarkDown 형태로 취득
         // console.log(editorRef.current?.getInstance().getMarkdown());
+
         const postInfo = {
             postTitle: text,
             postContentMd: editorRef.current.getInstance().getMarkdown(),
         }
         dispatch(addPostingDB(postInfo))
     };
+
+
 
     const defaultOpt = {
         previewStyle: "vertical",
@@ -43,12 +47,12 @@ export default function ToastEditor({ text, option }) {
     // }
     const onUploadImage = async (blob, callback) => {
         const formData = new FormData();
-        formData.append('image', blob);
+        formData.append('postImage', blob);
 
         await postApi.imageUpload(formData)
             .then(res => {
                 console.log(res.data);
-                // callback(res.data, "alt text");
+                callback(res.data.postImage);
 
             }).catch(err => {
                 console.log(err)

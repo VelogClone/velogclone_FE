@@ -38,16 +38,17 @@ const Main = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <div>
-                <Container sx={{ py: 4 }} maxWidth="lg" style={{padding:"0 8%"}}>
+                <Container sx={{ py: 4 }} maxWidth="lg" style={{ padding: "0 8%" }}>
                     <Grid container spacing={{ xs: 3, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {post_list.map((post, idx) => {
                             return (
                                 <Grid item xs={6} sm={4} md={4} key={idx}>
                                     <div onClick={() => navigate("/detail/" + post.postId)}>
                                         <div><RecipeReviewCard
-                                            postImage={post.postImage}
+                                            // postImage={post.postImage}
+                                            postImage={post.thumbnailImage}
                                             postTitle={post.postTitle}
                                             postContent={post.postContent}
                                             postDate={post.postDate}

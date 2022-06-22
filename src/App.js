@@ -66,7 +66,6 @@ function App() {
         <Route path='/write' element={<FormPage mode="write" />} />
         <Route path='/update/:id' element={<FormPage mode="update" />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/texteditor' element={<ToastUI />} />
       </Routes>
     </div>
   );

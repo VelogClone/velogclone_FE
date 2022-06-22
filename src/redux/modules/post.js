@@ -96,7 +96,11 @@ export const addPostingDB = (postInfo) => {
     return function (dispatch) {
         postApi
             .posting(postInfo)
-            .then((res) => { })
+            .then((res) => {
+                console.log(res.data.post);
+                dispatch(addPost(res.data.post));
+                window.location.replace('/')
+            })
             .catch((error) => {
                 console.log("게시글 등록 에러!");
             });
@@ -111,6 +115,7 @@ export default function reducer(state = initialState, action = {}) {
             return { list: posts }
         }
         case "post/ADD": {
+
             return { list: [...state.list, action.post.post] };
         }
 

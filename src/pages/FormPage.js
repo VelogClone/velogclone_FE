@@ -15,9 +15,9 @@ const FormPage = ({ mode }) => {
     const fileInput = useRef();
     // const [fileName, setFileName] = useState('');
     const [fileImage, setFileImage] = useState('');
-    const [inputText, setInputText] = useState('');
-    const [areaText, setAreaText] = useState('');
     const [card, setCard] = useState('');
+    const [inputText, setInputText] = useState(card?.postTitle);
+    const [areaText, setAreaText] = useState('');
 
     const selectFile = (e) => {
         // setFileName(e.target.value.split('\\')[2]);
@@ -39,30 +39,32 @@ const FormPage = ({ mode }) => {
     }
 
     useEffect(() => {
-        postApi.detail(id).then((res) => {
-            console.log(res, "수정 페이지 로드 성공")
-            setCard(res.data.post);
-        })
-            .catch((err) => {
-                console.log(err.response.data, "수정 페이지 로드 오류");
+        if (mode === 'update') {
+            postApi.detail(id).then((res) => {
+                console.log(res, "수정 페이지 로드 성공")
+                setCard(res.data.post);
             })
+                .catch((err) => {
+                    console.log(err.response.data, "수정 페이지 로드 오류");
+                })
+        }
     }, [])
 
-    const writeClick = () => {
-        if (!(inputText && fileInput.current.files[0] && areaText)) {
-            alert('모든 항목을 다 입력해주세요.')
-            return;
-        }
-        let formData = new FormData();
+    // const writeClick = () => {
+    //     if (!(inputText && fileInput.current.files[0] && areaText)) {
+    //         alert('모든 항목을 다 입력해주세요.')
+    //         return;
+    //     }
+    //     let formData = new FormData();
 
-        formData.append("postTitle", inputText);
-        formData.append("postImage", fileInput?.current.files[0]);
-        formData.append("postContent", areaText);
-        const data = getData();
+    //     formData.append("postTitle", inputText);
+    //     formData.append("postImage", fileInput?.current.files[0]);
+    //     formData.append("postContent", areaText);
+    //     const data = getData();
 
-        dispatch(addPostDB(data))
-        navigate(-1);
-    }
+    //     dispatch(addPostDB(data))
+    //     navigate(-1);
+    // }
 
     const updateClick = () => {
         const data = getData();
@@ -78,7 +80,7 @@ const FormPage = ({ mode }) => {
             >제목
             </input> */}
             <InputTitle onChange={(e) => { setInputText(e.target.value) }} />
-            <ToastEditor text={inputText} ></ToastEditor>
+            <ToastEditor text={inputText} card={card} ></ToastEditor>
         </>
         // <div style={{ display: 'flex' }}>
         //     <WriteContainer>
