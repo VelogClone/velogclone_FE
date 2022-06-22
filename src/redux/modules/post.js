@@ -17,8 +17,8 @@ export function mainpost(post_list) {
 export function addPost(post) {
     return { type: ADD, post };
 }
-export function updatePost(id, postImage) {
-    return { type: UPDATE, id, postImage };
+export function updatePost(id, post) {
+    return { type: UPDATE, id, post };
 }
 export function deletePost(id) {
     return { type: DELETE, id };
@@ -50,12 +50,12 @@ export const mainpostAPI = () => {
             })
     }
 }
-export const addPostDB = (formData) => {
+export const addPostDB = (postInfo) => {
     return async function (dispatch) {
-        await postApi.addPost(formData)
+        await postApi.addPost(postInfo)
             .then((res) => {
                 console.log('업로드 성공')
-                const post = res.data;
+                const post = res.data.post;
                 dispatch(addPost(post));
             })
             .catch((err) => {
@@ -63,12 +63,12 @@ export const addPostDB = (formData) => {
             })
     }
 }
-export const updatePostDB = (id, formData) => {
+export const updatePostDB = (id, postInfo) => {
     return async function (dispatch) {
-        await postApi.updatePost(id, formData)
+        await postApi.updatePost(id, postInfo)
             .then((res) => {
                 console.log('업데이트 성공')
-                dispatch(updatePost(id, res.data.postImage));
+                dispatch(updatePost(id, res.data.post));
             })
             .catch((err) => {
                 console.log(err, "업데이트 오류");
@@ -92,7 +92,6 @@ export const deletePostDB = (id) => {
 
 // add contentMD
 export const addPostingDB = (postInfo) => {
-    console.log(postInfo)
     return function (dispatch) {
         postApi
             .posting(postInfo)
@@ -103,6 +102,23 @@ export const addPostingDB = (postInfo) => {
             })
             .catch((error) => {
                 console.log("게시글 등록 에러!");
+                console.log(error)
+            });
+    };
+};
+
+export const updatePostingDB = (id, postInfo) => {
+    console.log(postInfo)
+    return function (dispatch) {
+        postApi
+            .updatePosting(id, postInfo)
+            .then((res) => {
+                console.log(res.data.post);
+                dispatch(updatePost(id, res.data.post));
+                window.location.replace('/')
+            })
+            .catch((error) => {
+                alert("게시글 수정 에러!");
             });
     };
 };
@@ -116,15 +132,20 @@ export default function reducer(state = initialState, action = {}) {
         }
         case "post/ADD": {
 
-            return { list: [...state.list, action.post.post] };
+            return { list: [...state.list, action.post] };
         }
 
         case "post/UPDATE": {
             const new_post_list = state.list.map((p, i) => {
-                if (p.postId === parseInt(action.id))
-                    return { ...p, postImage: action.postImage }
+                if (p.postId === parseInt(action.id)) {
+                    // return { ...p, ...action.post }
+                    console.log({ ...action.post })
+                    return { ...action.post }
+
+                }
                 return { ...p }
             })
+            console.log(new_post_list);
             return { list: new_post_list };
         }
 

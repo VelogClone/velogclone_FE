@@ -19,29 +19,16 @@ export const api = axios.create({
     }
 });
 
-if (localStorage.getItem('jwtToken'))
+if (localStorage.getItem('jwtToken')) {
     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
+}
+// if (localStorage.getItem('KakaoToken')) {
+//     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('KakaoToken')}`;
+// }
+
 
 export const authApi = {
-    // signUp: async (data) => {
-    //     console.log(data)
-    //     await api
-    //         .post('/api_signup', data)
-    //         .then((res) => {
-    //             alert('등록 완료!');
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //             alert(error.response.data);
-    //         });
-    // }
     signUp: (formData) => ImgApi.post('/api/signup', formData)
-
-    // api.post('/api_signup', formData, {
-    //     headers: {
-    //         'Content-Type': 'multipart/form-data'
-    //     }
-    // })
 
     ,
     signIn: (email, pw) => api.post('/api/login', {
@@ -70,6 +57,7 @@ export const postApi = {
 
 
     posting: (postInfo) => api.post('api/posts', postInfo),  // add contentMD
+    updatePosting: (id, postInfo) => api.put('api/posts/' + id, postInfo),  // add contentMD
     imageUpload: (formData) => ImgApi.post('api/posts/images', formData)
 }
 

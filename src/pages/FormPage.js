@@ -1,48 +1,49 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button, Input } from '../elements';
-import { addPostDB, updatePostDB } from '../redux/modules/post';
+import { addPostDB, updatePostDB, updatePostingDB } from '../redux/modules/post';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { postApi } from '../shared/api';
 import ToastEditor from '../components/ToastEditor';
 import ToastViewer from '../components/ToastViewer';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { addPostingDB } from '../redux/modules/post';
+import axios from 'axios';
 
 const FormPage = ({ mode }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { id } = useParams();
     const fileInput = useRef();
-    // const [fileName, setFileName] = useState('');
-    const [fileImage, setFileImage] = useState('');
-    const [card, setCard] = useState('');
-    const [inputText, setInputText] = useState(card?.postTitle);
-    const [areaText, setAreaText] = useState('');
+    const [title, setTitle] = useState('');
+    const editorRef = React.useRef("");
 
-    const selectFile = (e) => {
-        // setFileName(e.target.value.split('\\')[2]);
-        setFileImage(URL.createObjectURL(fileInput.current.files[0]));
-    };
-
-    const getData = () => {
-
-        let formData = new FormData();
-
-        formData.append("postTitle", inputText ? inputText : card.postTitle);
-        formData.append("postImage", fileInput.current.files[0] ? fileInput.current.files[0] : card.postImage)
-        formData.append("postContent", areaText ? areaText : card.postContent);
-
-        for (let value of formData.values()) {
-            console.log(value);
-        }
-        return formData;
+    const titleChange = (e) => {
+        setTitle(e.target.value);
     }
+    const handleRegisterButton = () => {
+        // // 입력창에 입력한 내용을 HTML 태그 형태로 취득
+        // console.log(editorRef.current?.getInstance().getHTML());
+        // // 입력창에 입력한 내용을 MarkDown 형태로 취득
+        // console.log(editorRef.current?.getInstance().getMarkdown());
+        console.log('작성버튼클릭')
+        const postInfo = {
+            postTitle: title,
+            postContentMd: editorRef.current.getInstance().getMarkdown(),
+        }
+        if (mode === 'update') {
+            dispatch(updatePostingDB(id, postInfo));
+        } else
+            dispatch(addPostingDB(postInfo))
+    };
 
     useEffect(() => {
         if (mode === 'update') {
             postApi.detail(id).then((res) => {
-                console.log(res, "수정 페이지 로드 성공")
-                setCard(res.data.post);
+                setTitle(res.data.post.postTitle)
+                editorRef.current.getInstance().setMarkdown(res.data.post.postContentMd);
             })
                 .catch((err) => {
                     console.log(err.response.data, "수정 페이지 로드 오류");
@@ -50,50 +51,79 @@ const FormPage = ({ mode }) => {
         }
     }, [])
 
-    // const writeClick = () => {
-    //     if (!(inputText && fileInput.current.files[0] && areaText)) {
-    //         alert('모든 항목을 다 입력해주세요.')
-    //         return;
-    //     }
-    //     let formData = new FormData();
 
-    //     formData.append("postTitle", inputText);
-    //     formData.append("postImage", fileInput?.current.files[0]);
-    //     formData.append("postContent", areaText);
-    //     const data = getData();
 
-    //     dispatch(addPostDB(data))
-    //     navigate(-1);
+    React.useEffect(() => {
+        if (editorRef.current) {
+            // 기존에 Image 를 Import 하는 Hook 을 제거한다.
+            editorRef.current.getInstance().removeHook("addImageBlobHook");
+            // 새롭게 Image 를 Import 하는 Hook 을 생성한다.
+            editorRef.current
+                .getInstance()
+                .addHook("addImageBlobHook", (blob, callback) => {
+                    (async () => {
+                        const formData = new FormData();
+                        formData.append('postImage', blob);
+
+                        await postApi.imageUpload(formData)
+                            .then(res => {
+                                console.log(res.data);
+                                callback(res.data.postImage);
+
+                            }).catch(err => {
+                                console.log(err)
+                            })
+                    })();
+                    return false;
+
+                });
+        }
+        return () => { };
+    }, [editorRef]);
+
+    // const updateClick = () => {
+    //     // const data = getData();
+    //     dispatch(updatePostDB(id, data));
+    //     navigate('/');
     // }
-
-    const updateClick = () => {
-        const data = getData();
-        dispatch(updatePostDB(id, data));
-        navigate('/');
-    }
 
     return (
         <>
-            {/* <input
-                type="text"
-                onChange={(e) => { setInputText(e.target.value) }}
-            >제목
-            </input> */}
-            <InputTitle onChange={(e) => { setInputText(e.target.value) }} />
-            <ToastEditor text={inputText} card={card} ></ToastEditor>
+
+            <InputTitle
+                onChange={titleChange}
+                value={title}
+            />
+
+            <Editor
+                events={{
+                    change: () => {
+                        const data = editorRef.current.getInstance().getMarkdown();
+                        editorRef.current.getInstance().setMarkdown(data);
+                    },
+                }}
+                editorRef={editorRef}
+                ref={editorRef}
+                previewStyle="vertical"
+                width="100%"
+                height="100vh"
+                usageStatistics={false}
+                initialEditType="markdown"
+                useCommandShortcut={true}
+                placeholder="당신의 이야기를 적어보세요"
+                previewHighlight={false}
+            />
+
+            <button onClick={handleRegisterButton}>
+                {mode === 'update' ? "수정하기" : "출간하기"}</button>
+
+
+
+
+
+            {/* <ToastEditor text={inputText} card={card} mode={ mode} ></ToastEditor> */}
         </>
-        // <div style={{ display: 'flex' }}>
-        //     <WriteContainer>
-        //         <ToastEditor setText={setText}></ToastEditor>
-        //     </WriteContainer >
 
-        //     <LeftContainer>
-        //         <ToastViewer text={text}  ></ToastViewer>
-
-        //     </LeftContainer>
-        //     <div>
-        //     </div>
-        // </div >
     )
 }
 

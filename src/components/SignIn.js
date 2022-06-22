@@ -9,6 +9,7 @@ export const SignIn = ({ onClick, setSignUp, close }) => {
     const [pw, setPw] = useState('');
 
     const sign_in = async () => {
+        console.log(email, pw)
         await dispatch(setLoginDB(email, pw))
             .then(success => {
                 if (success) {

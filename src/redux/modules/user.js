@@ -42,9 +42,9 @@ export const setLoginDB = (email, pw) => {
         let success = null;
         await authApi.signIn(email, pw)
             .then(res => {
+                console.log(res.data)
                 const token = res.data.token;
                 localStorage.setItem('jwtToken', token);
-                // dispatch(setUser(email));  // 여기 할차례
                 dispatch(setUser({
                     nickname: res.data.user.nickname,
                     userImage: res.data.user.userImage
@@ -64,7 +64,9 @@ export const loginCheckDB = () => {
     return async function (dispatch, getState) {
         authApi.loginCheck()
             .then(res => {
-                dispatch(setUser(res.data.user.email, res.data.user.nickname));
+                const userInfo = res.data.user
+                console.log(userInfo)
+                dispatch(setUser(userInfo));
             })
             .catch(err => {
                 alert('유저 정보가 없네요' + err)
@@ -75,11 +77,12 @@ export const loginCheckDB = () => {
 
 
 export const kakaoLoginDB = (userInfo) => {
+    console.log(userInfo)
     return async function (dispatch, getState) {
         await authApi.KaKaoLogin(userInfo)
             .then(res => {
                 console.log(res.data.token);
-                localStorage.setItem("jwtToken", res.data.token);
+                localStorage.setItem("KakaoToken", res.data.token);
                 console.log(userInfo)
                 dispatch(setUser(userInfo.email, userInfo.nickname));
                 // window.location.replace("/");
@@ -97,7 +100,6 @@ export const kakaoLoginDB = (userInfo) => {
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
         case 'user/LOAD': {
-            console.log('2')
             return {
                 // email: action.email,
                 nickname: action.userInfo.nickname,

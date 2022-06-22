@@ -21,7 +21,6 @@ const Detail = () => {
     // 댓글 입력값 가져오기 
     const [text, setText] = useState('');
     const [display, setDisplay] = useState("none")
-
     const deleteCard = () => {
         dispatch(deletePostDB(postId))
         navigate('/')
