@@ -2,6 +2,11 @@
   font-family: 'Gaegu-Regular';
   src: url('./fonts/Gaegu-Regular.ttf');
 }
+@font-face{
+  font-family : FiraMono;
+  src:url('./fonts/FiraMono-Medium.ttf')
+}
+
 ul,
 li {
   margin: 0;

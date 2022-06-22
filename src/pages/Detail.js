@@ -14,7 +14,7 @@ const Detail = () => {
     const params = useParams();
     const postId = params.id;
     const userName = useSelector((state) => state.user.nickname);
-    // console.log(postId)
+    // console.log(userName)
 
     // 해당 게시물 가져오기 
     const [card, setCard] = useState('');
@@ -69,7 +69,7 @@ const Detail = () => {
     }
 
     return (
-        <div style={{ margin: "auto", width: "80vw", maxWidth: "70%" }}>
+        <div style={{ margin: "auto", width: "80vw", maxWidth: "70%", paddingBottom: "10%" }}>
             <Title>{card.postTitle}</Title>
             <UpdateButton>
                 <div>{card.postDate}</div>
@@ -100,7 +100,7 @@ const Detail = () => {
                             <CommProfile>
                                 <div style={{ position: "relative", marginLeft: "2%" }}>
                                     <Profile2>
-                                        <div>{data.userImage}</div>
+                                        <img src={data.userImage} />
                                     </Profile2>
                                     <div style={{ position: "relative" }}>
                                         <div style={{ position: "absolute", top: "-50px", left: "70px", fontWeight: "bolder" }}>{data.nickname}</div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaMoon } from "react-icons/fa";
 import { BsFillSunFill } from "react-icons/bs";
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux/es/exports';
 import { } from '../header.css';
 import { deleteUser } from '../redux/modules/user';
 import { useDispatch } from 'react-redux/es/exports';
+
 const Header = () => {
     const is_login = useSelector(state => state.user.is_login);
     const navigate = useNavigate();
@@ -17,28 +18,35 @@ const Header = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [drop, setDrop] = useState(false);
 
-
     const openModal = () => {
         setModalOpen(true);
     };
     const closeModal = () => {
         setModalOpen(false);
     };
-
     const logout = () => {
         dispatch(deleteUser());
     }
+    const [scrollPosition, setScrollPosition]= useState(0);
+    const updateScroll = () => {
+        setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', updateScroll);
+    });
+
     return (
         <>
-            <Container>
+            <Container scrollPosition={scrollPosition}>
                 <span className='header' onClick={() => { navigate('/') }} >velog</span>
                 <div style={{ display: "flex", alignItems: "center" }} >
-                    <div style={{ marginRight: '30px' }}>
-                        <FaMoon />
-                        <BsFillSunFill />
+                    <div style={{ marginRight: '25px', marginTop:"-8px", marginRight:"-10px"}}>
+                        <BsFillSunFill size="27px" />
                     </div>
                     {!is_login && <Btn onClick={openModal} >로그인</Btn>}
                     <AiOutlineMenu
+                        size="27px"
+                        style={{marginTop:"-10px", marginRight: "40px"}}
                         className='menu-btn'
                         onClick={() => { setDrop(!drop) }}
                     />
@@ -56,19 +64,19 @@ const Header = () => {
                     <li>ㅇㅇㅇ</li>
                 </DropdownMenu>
             </Container>
-
-
-
-
+            <div>
+                <div>트렌딩</div>
+                <div>내가 쓴 글</div>
+            </div>
+            <Line/>
         </>
     )
 
 }
 
 const Container = styled.div`
-    background-color: black;
-    color: white;
-    display: flex;
+    background-color: #F8F9FA;
+    display: ${(props) => (props.scrollPosition < 300 ? 'flex' : 'none')};
     justify-content: space-between;
     align-items: center;
     height: 60px;
@@ -77,12 +85,14 @@ const Container = styled.div`
 `;
 
 const Btn = styled.span`
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
+    font-weight : bolder;
     padding: 2px;
-    margin:0 30px;
+    margin: 0 25px;
+    margin-top : -10px;
     border-radius:20px;
-    padding: 10px 14px;
+    padding: 6px 16px;
     cursor: pointer;
 `;
 
@@ -105,13 +115,6 @@ const DropdownMenu = styled.ul`
     }
 `;
 
-
-
-
-
-
-
-
 const MenuBox = styled.div`
     margin:0 30px;
     border: 2px solid white;
@@ -125,8 +128,14 @@ const MenuBox = styled.div`
     // &:hover > li {
     //     display:block;
     // }
+`;
 
-`
+const Line = styled.hr`
+    margin : 5px 0;
+    height: 20px;
+    border: 0;
+    box-shadow: inset 0 7px 12px -12px rgba(0, 0, 0, 0.2);
+`;
 
 
 export default Header;
