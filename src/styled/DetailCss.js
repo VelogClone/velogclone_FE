@@ -5,6 +5,7 @@ const Title = styled.h1`
     display : flex;
     margin-top : 25px;
     font-size : 3em;
+    text-align : left;
 `;
 const UpdateButton = styled.div`
     display : flex;

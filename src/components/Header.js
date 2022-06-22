@@ -45,8 +45,8 @@ const Header = () => {
             <>
                 <Container scrollPosition={scrollPosition}>
                     <span className='header' onClick={() => { navigate('/') }} >velog</span>
-                    <div style={{ display: "flex", alignItems: "center", marginLeft: "auto" }} >
-                        <div style={{ marginRight: '15px', marginTop: "-8px" }}>
+                    <div style={{ display: "flex", alignItems: "center", padding:"60px", marginLeft: "auto" }} >
+                        <div style={{ marginRight: '10px', marginTop: "-8px" }}>
                             <BsFillSunFill size="27px" />
                         </div>
                         {!is_login && <Btn onClick={openModal} >로그인</Btn>}
@@ -54,7 +54,7 @@ const Header = () => {
                             size="27px"
                             style={{ marginTop: "-10px", float: "right" }}
                             className='menu-btn'
-                            onClick={() => { setDrop(!drop) }}
+                            onClick={() => { (is_login)? setDrop(!drop):setDrop(drop) }}
                         />
                         {is_login && <Btn onClick={logout} >로그아웃</Btn>}
 
@@ -65,9 +65,10 @@ const Header = () => {
 
                     </div>
                     <DropdownMenu onClick={() => { setDrop(!drop) }} drop={drop} >
-                        <li onClick={() => navigate('/write')} >글 작성</li>
-                        <li>ㅇㅇㅇ</li>
-                        <li>ㅇㅇㅇ</li>
+                        <li onClick={() => navigate('/write')} >새 글 작성</li>
+                        <li>임시 글</li>
+                        <li>읽기 목록</li>
+                        <li>설정</li>
                     </DropdownMenu>
                 </Container>
                 <Show>
@@ -116,17 +117,22 @@ const DropdownMenu = styled.ul`
     // display: ${(props) => (props.drop ? 'block' : 'none')};
     max-height:${(props) => (props.drop ? '' : '0')};
     overflow: hidden;
-    width: 200px;
-    background-color: rgba(0, 0, 0, 0.8);
+    margin-top : -15px;
+    width: 180px;
+    background-color: #F8F9FA;
     position: absolute;
     top: 100%;
-    right: 0%;
+    right: 100px;
+    height : 200px;
+    box-shadow : 10px 5px 20px darkgray;
+
     & > li {
-        padding: 10px;
+        padding: 13px;
         cursor: pointer;
     }
     & > li:hover {
-        color: rgba(150, 242, 215, 1);
+        color: #12b886;
+        background-color: #E9ECEF;
 
     }
 `;

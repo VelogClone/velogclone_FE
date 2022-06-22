@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Button, Input } from '../elements';
+// import { Button, Input } from '../elements';
 import { addPostDB, updatePostDB, updatePostingDB } from '../redux/modules/post';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { postApi } from '../shared/api';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { addPostingDB } from '../redux/modules/post';
+import { BiArrowBack } from "react-icons/bi";
 import axios from 'axios';
 
 const FormPage = ({ mode }) => {
@@ -81,9 +82,10 @@ const FormPage = ({ mode }) => {
 
 
     return (
-        <>
+        <div style={{ background: "white" }}>
 
             <InputTitle
+                placeholder='제목을 입력하세요'
                 onChange={titleChange}
                 value={title}
             />
@@ -99,17 +101,20 @@ const FormPage = ({ mode }) => {
                 ref={editorRef}
                 previewStyle="vertical"
                 width="100%"
-                height="100vh"
+                height="70vh"
                 usageStatistics={false}
                 initialEditType="markdown"
                 useCommandShortcut={true}
                 placeholder="당신의 이야기를 적어보세요"
                 previewHighlight={false}
             />
+            <BtnWrap>
+                <Button1 onClick={() => navigate(-1)}><BiArrowBack/> 나가기</Button1>
+                <Button2 onClick={handleRegisterButton}>
+                    {mode === 'update' ? "수정하기" : "출간하기"}</Button2>
+            </BtnWrap>
 
-            <button onClick={handleRegisterButton}>
-                {mode === 'update' ? "수정하기" : "출간하기"}</button>
-        </>
+        </div>
 
     )
 }
@@ -121,7 +126,52 @@ const InputTitle = styled.input`
     outline: none;
     background-color: inherit;
     border :none;
+    height : 13vh;
+    &:: placeholder { 
+        font-size : calc(100% - 5px);
+        font-weight : bolder;
+        padding : 3%;
+        color : #CED4DA ;
+    }
 `;
 
+const BtnWrap = styled.div`
+    width : 50vw;
+    display : flex;
+    margin-top: 25px;
+
+`;
+
+const Button1 = styled.button`
+    flex : none;
+    display : box;
+    width : 120px;
+    height : 38px;
+    color : #12b886;
+    background : transparent;
+    border : transparent;
+    border-radius : 4px;
+    font-weight : bolder;
+    font-size : 18px;
+    cursor:pointer;
+`;
+
+const Button2 = styled.button`
+    display : box;
+    margin-left : auto;
+    position : right;
+    width : 120px;
+    height : 38px;
+    color : white;
+    background : #12b886;
+    border : transparent;
+    border-radius : 4px;
+    font-weight : bolder;
+    font-size : 18px;
+    cursor:pointer;
+    &:hover {
+        background : #20C997;
+    }
+`;
 
 export default FormPage;
