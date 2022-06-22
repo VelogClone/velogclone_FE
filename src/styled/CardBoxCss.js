@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const CardProfile = styled.div`
     display : flex;
     justify-content : space-between;
     margin-top : -10px;
+    margin-bottom : -10px;
     height : 50px;
     &>div{
         text-align: center;
@@ -17,10 +18,10 @@ const CardProfile = styled.div`
 `;
 
 const Profile = styled.div`
-    width : 30px;
-    height : 30px;
+    width : 25px;
+    height : 25px;
     border-radius :50%;
-    border : 2px solid black;
+    border : 2px solid transparent;
     position : relative;
     overflow:hidden;
     &>img {
@@ -33,4 +34,13 @@ const Profile = styled.div`
     }
 `;
 
-export {CardProfile, Profile}
+const CardAnimation = styled.div`
+    &:hover {
+        margin-top : -10px;
+        box-shadow : 0 3px 10px gray;
+        transition-duration :0.5s;
+    }
+`;
+
+
+export { CardProfile, Profile, CardAnimation }

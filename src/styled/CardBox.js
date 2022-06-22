@@ -12,7 +12,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import Container from "@mui/material/Container";
-import { CardProfile, Profile } from './CardBoxCss';
+import Divider from '@mui/material/Divider';
+import { CardProfile, Profile, CardAnimation } from './CardBoxCss';
 
 
 const ExpandMore = styled((props) => {
@@ -42,26 +43,30 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
   };
 
   return (
-    <Card sx={{ maxWidth: 600 }} >
-      <CardMedia
-        component="img"
-        height="160"
-        image={postImage}
-        alt="Paella dish"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h7" fontWeight="bolder" textAlign="left" component="div">
-          {postTitle}
-        </Typography>
-        <Typography variant="body2" textAlign="left" height="60px" resize="none" color="text.secondary">
-          {postContent}
-        </Typography>
-        <div style={{ fontSize: "13px", marginTop: "3rem", textAlign: "left" }}>
-          {postDate}{" / "}{commentCount}개의 댓글
-        </div>
-        <hr style={{ borderColor: "white", marginTop: "1rem" }} />
-      </CardContent>
-      {/* <CardHeader style={{ marginTop: "-2rem" }}
+    <CardAnimation>
+      <Card sx={{ maxWidth: 600 }} >
+        <CardMedia
+          component="img"
+          height="160"
+          image={postImage}
+          alt="Paella dish"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h7" fontWeight="bolder" textAlign="left" component="div">
+            {postTitle}
+          </Typography>
+          <Typography variant="body2" textAlign="left" height="60px" resize="none" color="text.secondary">
+            {postContent}
+          </Typography>
+          <div style={{ fontSize: "13px", marginTop: "3rem", marginBottom: "-2rem", textAlign: "left" }}>
+            {postDate}{" / "}{commentCount}개의 댓글
+          </div>
+          <Divider sx={{ height: 30, m: 0.5 }} orientation="horizen" />
+          <IconButton aria-label="add to favorites" sx={{ p: '10px' }} style={{ float: "right" }}>
+            <FavoriteIcon sx={{ fontSize: 15 }} /><div style={{ fontSize: "12px", marginLeft: "5px" }}>{"좋아요"}</div>
+          </IconButton>
+        </CardContent>
+        {/* <CardHeader style={{ marginTop: "-2rem" }}
         avatar={
           <Avatar style={{ height: "30px", width: "30px" }} aria-label="recipe">
             {userImage}
@@ -74,18 +79,16 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
         }
         title={nickname}
       /> */}
-      <CardProfile>
-        <div style={{ position: "relative", marginLeft: "5%" }}>
-          <Profile>
-            <div>{userImage}</div>
-          </Profile>
-          <div style={{ position: "absolute", top: "10px", left: "50px", fontWeight: "bolder" }}>{nickname}</div>
-          <IconButton aria-label="add to favorites" style={{ position: "absolute", top: "-5px", right: "-900%" }}>
-            <FavoriteIcon />
-          </IconButton>
-        </div>
-      </CardProfile>
-    </Card>
+        <CardProfile>
+          <div style={{ position: "relative", marginLeft: "5%" }}>
+            <Profile>
+              <img src={userImage} />
+            </Profile>
+            <div style={{ position: "absolute", top: "8px", left: "40px", fontSize: "15px", fontWeight: "bolder" }}>{nickname}</div>
 
+          </div>
+        </CardProfile>
+      </Card>
+    </CardAnimation>
   );
 }

@@ -4,12 +4,12 @@ import styled from "styled-components";
 const Title = styled.h1`
     display : flex;
     margin-top : 25px;
-    font-size : 35px;
+    font-size : 3em;
 `;
 const UpdateButton = styled.div`
     display : flex;
     justify-content : space-between;
-    margin-top : 10%;
+    margin-top : 5%;
     &>div{
         text-align: center;
     }

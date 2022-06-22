@@ -1,8 +1,10 @@
 .header {
-  font-family: 'Gaegu-Regular', cursive;
-  font-weight: bold;
-  font-size: 30px;
-  margin-left: 50px;
+  font-family: 'FiraMono', cursive;
+  font-weight: medium;
+  font-size: 25px;
+  margin-left: 7%;
+  margin-top : -20px;
+  color : black;
   cursor: pointer;
 }
 
@@ -18,7 +20,7 @@
   bottom: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: #F8F9FA;
 }
 .modal button {
   outline: none;
