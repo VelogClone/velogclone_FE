@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaMoon } from "react-icons/fa";
 import { BsFillSunFill } from "react-icons/bs";
+import { BiTrendingUp, BiUser } from "react-icons/bi";
 import ControlledOpenSelect from './Dropdown';
 import Modal from './Modal';
 import { useNavigate } from 'react-router-dom'
@@ -27,7 +28,7 @@ const Header = () => {
     const logout = () => {
         dispatch(deleteUser());
     }
-    const [scrollPosition, setScrollPosition]= useState(0);
+    const [scrollPosition, setScrollPosition] = useState(0);
     const updateScroll = () => {
         setScrollPosition(window.scrollY || document.documentElement.scrollTop);
     }
@@ -39,14 +40,14 @@ const Header = () => {
         <>
             <Container scrollPosition={scrollPosition}>
                 <span className='header' onClick={() => { navigate('/') }} >velog</span>
-                <div style={{ display: "flex", alignItems: "center" }} >
-                    <div style={{ marginRight: '25px', marginTop:"-8px", marginRight:"-10px"}}>
+                <div style={{ display: "flex", alignItems: "center", marginLeft: "auto" }} >
+                    <div style={{ marginRight: '15px', marginTop: "-8px" }}>
                         <BsFillSunFill size="27px" />
                     </div>
                     {!is_login && <Btn onClick={openModal} >로그인</Btn>}
                     <AiOutlineMenu
                         size="27px"
-                        style={{marginTop:"-10px", marginRight: "40px"}}
+                        style={{ marginTop: "-10px", float: "right" }}
                         className='menu-btn'
                         onClick={() => { setDrop(!drop) }}
                     />
@@ -65,11 +66,12 @@ const Header = () => {
                 </DropdownMenu>
             </Container>
             <div className='category'>
-                <div>트렌딩</div>
-                <div>내가 쓴 글</div>
-                <hr/>
+                <div><BiTrendingUp size="25px" style={{ marginBottom: "-8px", marginRight: "5px" }} />트렌딩</div>
+                <div><BiUser size="25px" style={{ marginBottom: "-5px", marginRight: "5px" }} />내가 쓴 글</div>
             </div>
-            <Line/>
+            <hr className='categoryLine'/>
+
+            <Line />
         </>
     )
 
@@ -105,7 +107,7 @@ const DropdownMenu = styled.ul`
     background-color: rgba(0, 0, 0, 0.8);
     position: absolute;
     top: 100%;
-    right: 0;
+    right: 0%;
     & > li {
         padding: 10px;
         cursor: pointer;
@@ -132,7 +134,7 @@ const MenuBox = styled.div`
 `;
 
 const Line = styled.hr`
-    margin : 5px 0;
+    margin : -10px 0 10px 0;
     height: 20px;
     border: 0;
     box-shadow: inset 0 7px 12px -12px rgba(0, 0, 0, 0.2);
