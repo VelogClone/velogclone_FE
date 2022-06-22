@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux/es/exports';
 import { } from '../header.css';
 import { deleteUser } from '../redux/modules/user';
 import { useDispatch } from 'react-redux/es/exports';
+import { useLocation } from 'react-router-dom';
+import { display } from '@mui/system';
 
 const Header = () => {
     const is_login = useSelector(state => state.user.is_login);
@@ -28,6 +30,7 @@ const Header = () => {
     const logout = () => {
         dispatch(deleteUser());
     }
+
     const [scrollPosition, setScrollPosition] = useState(0);
     const updateScroll = () => {
         setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -36,46 +39,56 @@ const Header = () => {
         window.addEventListener('scroll', updateScroll);
     });
 
-    return (
-        <>
-            <Container scrollPosition={scrollPosition}>
-                <span className='header' onClick={() => { navigate('/') }} >velog</span>
-                <div style={{ display: "flex", alignItems: "center", marginLeft: "auto" }} >
-                    <div style={{ marginRight: '15px', marginTop: "-8px" }}>
-                        <BsFillSunFill size="27px" />
+    const location = useLocation();
+    if ((location.pathname === "/") || (location.pathname.split('/')[1] === "detail")) {
+        return (
+            <>
+                <Container scrollPosition={scrollPosition}>
+                    <span className='header' onClick={() => { navigate('/') }} >velog</span>
+                    <div style={{ display: "flex", alignItems: "center", marginLeft: "auto" }} >
+                        <div style={{ marginRight: '15px', marginTop: "-8px" }}>
+                            <BsFillSunFill size="27px" />
+                        </div>
+                        {!is_login && <Btn onClick={openModal} >로그인</Btn>}
+                        <AiOutlineMenu
+                            size="27px"
+                            style={{ marginTop: "-10px", float: "right" }}
+                            className='menu-btn'
+                            onClick={() => { setDrop(!drop) }}
+                        />
+                        {is_login && <Btn onClick={logout} >로그아웃</Btn>}
+
+                        {/* <ControlledOpenSelect></ControlledOpenSelect> */}
+                        <Modal open={modalOpen} close={closeModal} header="Modal heading">
+
+                        </Modal>
+
                     </div>
-                    {!is_login && <Btn onClick={openModal} >로그인</Btn>}
-                    <AiOutlineMenu
-                        size="27px"
-                        style={{ marginTop: "-10px", float: "right" }}
-                        className='menu-btn'
-                        onClick={() => { setDrop(!drop) }}
-                    />
-                    {is_login && <Btn onClick={logout} >로그아웃</Btn>}
+                    <DropdownMenu onClick={() => { setDrop(!drop) }} drop={drop} >
+                        <li onClick={() => navigate('/write')} >글 작성</li>
+                        <li>ㅇㅇㅇ</li>
+                        <li>ㅇㅇㅇ</li>
+                    </DropdownMenu>
+                </Container>
+                <Show>
+                    <div className='category'>
+                        <div><BiTrendingUp size="25px" style={{ marginBottom: "-8px", marginRight: "5px" }} />트렌딩</div>
+                        <div><BiUser size="25px" style={{ marginBottom: "-5px", marginRight: "5px" }} />내가 쓴 글</div>
+                    </div>
+                    <hr className='categoryLine' />
 
-                    {/* <ControlledOpenSelect></ControlledOpenSelect> */}
-                    <Modal open={modalOpen} close={closeModal} header="Modal heading">
+                    <Line />
+                </Show>
+            </>
+        )
+    } else return null;
 
-                    </Modal>
-
-                </div>
-                <DropdownMenu onClick={() => { setDrop(!drop) }} drop={drop} >
-                    <li onClick={() => navigate('/write')} >글 작성</li>
-                    <li>ㅇㅇㅇ</li>
-                    <li>ㅇㅇㅇ</li>
-                </DropdownMenu>
-            </Container>
-            <div className='category'>
-                <div><BiTrendingUp size="25px" style={{ marginBottom: "-8px", marginRight: "5px" }} />트렌딩</div>
-                <div><BiUser size="25px" style={{ marginBottom: "-5px", marginRight: "5px" }} />내가 쓴 글</div>
-            </div>
-            <hr className='categoryLine'/>
-
-            <Line />
-        </>
-    )
 
 }
+
+const Show = styled.div`
+    // display : ${(window.location.pathname === "/")? 'flex' : 'none'};  
+`;
 
 const Container = styled.div`
     background-color: #F8F9FA;
