@@ -64,9 +64,10 @@ const Header = () => {
                     <li>ㅇㅇㅇ</li>
                 </DropdownMenu>
             </Container>
-            <div>
+            <div className='category'>
                 <div>트렌딩</div>
                 <div>내가 쓴 글</div>
+                <hr/>
             </div>
             <Line/>
         </>
