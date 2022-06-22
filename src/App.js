@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes} from 'react-router-dom';
 import { Login, Main, Detail, SignUp, Form, FormPage, SignIn } from './pages';
 import { ToastUI } from './pages/toastUI';
 import Profile from './pages/Profile';
@@ -20,8 +20,6 @@ function App() {
   // const [user_id, setUserId] = useState();
   const [nickName, setNickName] = useState();
   const [profileImage, setProfileImage] = useState();
-
-
 
   // const getKakaoProfile = async () => {
   //   try {

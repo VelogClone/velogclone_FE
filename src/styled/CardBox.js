@@ -84,7 +84,7 @@ export default function RecipeReviewCard({ postImage, postTitle, postContent, po
             <Profile>
               <img src={userImage} />
             </Profile>
-            <div style={{ position: "absolute", top: "8px", left: "40px", fontSize: "15px", fontWeight: "bolder" }}>{nickname}</div>
+            <div style={{ position: "absolute", top: "8px", left: "40px", width: "120px", textAlign:"left", fontSize: "15px", fontWeight: "bolder" }}>{nickname}</div>
 
           </div>
         </CardProfile>
