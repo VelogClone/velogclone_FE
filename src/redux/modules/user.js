@@ -112,6 +112,9 @@ export default function reducer(state = initialState, action = {}) {
                 localStorage.removeItem('jwtToken');
             if (localStorage.getItem('accessToken'))
                 localStorage.removeItem('accessToken')
+            if (localStorage.getItem('KakaoToken'))
+                localStorage.removeItem('KakaoToken')
+
             const newUser = {
                 is_login: false,
                 email: null,

@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Link, Route, Routes} from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import { Login, Main, Detail, SignUp, Form, FormPage, SignIn } from './pages';
 import { ToastUI } from './pages/toastUI';
 import Profile from './pages/Profile';
@@ -41,8 +41,12 @@ function App() {
   // };
 
   React.useEffect(() => {
-    if (localStorage.getItem('jwtToken'))
+    if (localStorage.getItem('jwtToken') || localStorage.getItem('KakaoToken')) {
+      console.log('메인')
       dispatch(loginCheckDB());
+
+    }
+
     // if (localStorage.getItem('accessToken')) {
     //   getKakaoProfile();
     // }

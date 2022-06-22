@@ -4,18 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { deletePostDB } from "../redux/modules/post";
 import { postApi } from "../shared/api";
-import { commentWriteDB, commentUpdateDB, commentDeleteDB, commentLoadDB } from "../redux/modules/comment";
+import { commentWriteDB, commentUpdateDB, commentDeleteDB } from "../redux/modules/comment";
 import { Title, UpdateButton, Container, Profile, Nickname, CommentCount, Input, Button, CommProfile, Profile2 } from "../styled/DetailCss";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from "@toast-ui/react-editor";
-
+import { commentLoad } from "../redux/modules/comment";
 const Detail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
     const postId = params.id;
+    const inputRef = useRef('');
+    const commentRef = useRef('');
     const userName = useSelector((state) => state.user.nickname);
-    // console.log(userName)
+    const [commentCnt, setCommentCnt] = useState('');
 
     // 해당 게시물 가져오기 
     const [card, setCard] = useState('');
@@ -32,9 +34,10 @@ const Detail = () => {
         postApi.detail(postId).then((res) => {
             console.log(res, "상세페이지 포스트업로드 성공")
             setCard(res.data.post);
+            setCommentCnt(res.data.post.commentCount)
             markRef.current.getInstance().setMarkdown(res.data.post.postContentMd);
             console.log(markRef)
-            dispatch(commentLoadDB(res.data.comments))
+            dispatch(commentLoad(res.data.comments))
 
         })
             .catch((err) => {
@@ -44,35 +47,31 @@ const Detail = () => {
 
 
     //리덕스에서 댓글 가져오기
-    const comment_list = useSelector((state) => state.comment.comment);
+    const comment_list = useSelector((state) => state.comment.list);
     console.log(comment_list);
 
     // 댓글 작성 
-    const commentWrite = async () => {
-        dispatch(commentWriteDB({
-            postId: postId,
-            comment: text,
-        }))
-        setText("");
-        window.location.reload();
+    const commentWrite = () => {
+        dispatch(commentWriteDB(postId, text))
+        setCommentCnt(commentCnt + 1)
+        inputRef.current.value = '';
     }
     // 댓글 수정
-    const commentUpdate = async (e) => {
-        dispatch(commentUpdateDB({
-            commentId: e,
-            comment: text,
-        }))
-        setText("");
-        window.location.reload();
+    const commentUpdate = (id) => {
+        dispatch(commentUpdateDB(id, text))
+        commentRef.current.value = '';
     }
 
     // 댓글 삭제
-    const commentDelete = async (e) => {
-        console.log(e)
-        dispatch(commentDeleteDB(e))
-        window.location.reload();
+    const commentDelete = (id) => {
+        dispatch(commentDeleteDB(id))
+        setCommentCnt(commentCnt - 1)
+
     }
-    console.log(markRef)
+
+
+
+
 
     return (
         <div style={{ margin: "auto", width: "80vw", maxWidth: "70%", paddingBottom: "10%" }}>
@@ -97,11 +96,13 @@ const Detail = () => {
                 </Profile>
                 <Nickname>{card.nickname}</Nickname>
             </div>
-            <CommentCount>{card.commentCount}개의 댓글</CommentCount>
-            <Input placeholder="댓글을 작성하세요" onChange={(e) => { setText(e.target.value) }} />
+            <CommentCount>{commentCnt}개의 댓글</CommentCount>
+            <Input placeholder="댓글을 작성하세요"
+                ref={inputRef}
+                onChange={(e) => { setText(e.target.value) }} />
             <Button style={{ display: "flex", marginLeft: "auto", alignItems: "center", justifyContent: "center" }} onClick={() => { commentWrite() }}>댓글 작성</Button>
             <div>
-                {comment_list.map((data) => {
+                {comment_list.map((data, idx) => {
                     return (
                         <div key={data.commentId}>
                             <CommProfile>
@@ -110,23 +111,35 @@ const Detail = () => {
                                         <img src={data.userImage} />
                                     </Profile2>
                                     <div style={{ position: "relative" }}>
-                                        <div style={{ position: "absolute", top: "-50px", left: "68px", width:"120px", textAlign:"left", fontWeight: "bolder" }}>{data.nickname}</div>
+                                        <div style={{ position: "absolute", top: "-50px", left: "68px", width: "120px", textAlign: "left", fontWeight: "bolder" }}>{data.nickname}</div>
                                         <div style={{ position: "absolute", top: "-28px", left: "61px", fontSize: "14px", width: "120px" }}>{data.commentDate}</div>
                                     </div>
                                 </div>
                                 {(userName === data.nickname) &&
                                     <div>
-                                        <button onClick={() => { setDisplay("") }}>수정</button>
+                                        <button onClick={() => { setDisplay('') }}>수정</button>
                                         <button onClick={() => { commentDelete(data.commentId) }}>삭제</button>
                                     </div>
                                 }
                             </CommProfile>
                             <div style={{ textAlign: "left", marginTop: "1rem" }}>{data.comment}</div>
-                            <div style={{ display: `${display}` }}>
-                                <Input placeholder="댓글을 수정하실껀가요?" onChange={(e) => { setText(e.target.value) }} />
+
+                            <div
+                                className={`${data.commentId}`}
+                                style={{ display: `${display}` }}>
+                                <Input placeholder="댓글을 수정하실껀가요?"
+                                    onChange={(e) => {
+                                        setText(e.target.value)
+                                    }}
+                                    ref={commentRef}
+                                />
                                 <Button onClick={() => { setDisplay("none") }}>취소</Button>
                                 <Button onClick={() => { commentUpdate(data.commentId) }}>수정하기</Button>
                             </div>
+
+
+
+
                         </div>
                     )
                 })}

@@ -10,7 +10,7 @@ const ImgApi = axios.create({
 if (localStorage.getItem('jwtToken'))
     ImgApi.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
-export const api = axios.create({
+const api = axios.create({
     baseURL: "http://3.35.170.203",
     // baseURL: "http://13.209.14.6",
     headers: {
@@ -18,13 +18,30 @@ export const api = axios.create({
         accept: "application/json,",
     }
 });
+
 api.interceptors.request.use(function (config) {
     const accessToken = localStorage.getItem('jwtToken')
-    if (accessToken !== undefined) {
+    const kakaoToken = localStorage.getItem('KakaoToken')
+    if ((kakaoToken) !== null) {
+        config.headers.common["Authorization"] = `Bearer ${kakaoToken}`;
+    }
+
+    if ((accessToken) !== null) {
+        console.log(accessToken)
         config.headers.common["Authorization"] = `Bearer ${accessToken}`;
     }
     return config;
 });
+
+
+
+
+
+
+
+
+
+
 
 // if (localStorage.getItem('jwtToken')) {
 //     api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
@@ -54,10 +71,7 @@ export const postApi = {
     main: () => api.get("api/posts"),
     detail: (postId) => api.get(`api/posts/${postId}`),
     addPost: (formData) => ImgApi.post('/api/posts', formData),
-    addComment: (id, comment) => api.post(`/api/comments/${id}`, comment,
-        {
-            headers: { "Authorization": `Bearer ${localStorage.getItem('jwtToken')}` }
-        }),
+
     updatePost: (id, formData) => ImgApi.put('/api/posts/' + id, formData),
     deletePost: (id) => api.delete('/api/posts/' + id),
 
@@ -68,3 +82,8 @@ export const postApi = {
     imageUpload: (formData) => ImgApi.post('api/posts/images', formData)
 }
 
+export const commentApi = {
+    addComment: (id, comment) => api.post('api/comments/' + id, comment),
+    updateComment: (id, comment) => api.put('api/comments/' + id, comment),
+    deleteComment: (id) => api.delete('api/comments/' + id),
+}

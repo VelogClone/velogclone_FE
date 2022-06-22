@@ -35,9 +35,9 @@ const Main = () => {
     };
     React.useEffect(() => {
         dispatch(mainpostAPI());
-        // if (localStorage.getItem('KakaoToken')) {
-        getKakaoProfile();
-        // }
+        if (localStorage.getItem('accessToken')) {
+            getKakaoProfile();
+        }
     }, []);
 
     return (
