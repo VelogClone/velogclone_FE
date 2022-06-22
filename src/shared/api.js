@@ -11,8 +11,8 @@ if (localStorage.getItem('jwtToken'))
     ImgApi.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('jwtToken')}`;
 
 export const api = axios.create({
-    baseURL: "http://3.35.170.203",
-    // baseURL: "http://13.209.14.6",
+    // baseURL: "http://3.35.170.203",
+    baseURL: "http://13.209.14.6",
     headers: {
         "content-type": "application/json;charset=utf-8",
         accept: "application/json,",
@@ -49,10 +49,10 @@ export const authApi = {
         password: pw,
     },
         { withCredentials: true }),
-
+    
     loginCheck: () => api.get('/api/auth'),
 
-    sendKakaoUser: (userInfo) => api.post('/api/auth/kakao', userInfo)
+    KaKaoLogin: (userInfo) => api.post('/api/auth/kakao', userInfo)
 }
 
 
@@ -65,6 +65,11 @@ export const postApi = {
             headers: { "Authorization": `Bearer ${localStorage.getItem('jwtToken')}` }
         }),
     updatePost: (id, formData) => ImgApi.put('/api/posts/' + id, formData),
-    deletePost: (id) => api.delete('/api/posts/' + id)
+    deletePost: (id) => api.delete('/api/posts/' + id),
+
+
+
+    posting: (postInfo) => api.post('api/posts', postInfo),  // add contentMD
+    imageUpload: (formData) => api.post('api/image', formData)
 }
 

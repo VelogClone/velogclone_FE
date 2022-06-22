@@ -11,6 +11,7 @@ import KaKaoAuth from './shared/KakaoAuth';
 import { authApi } from './shared/api';
 import { kakaoSetUserDB } from './redux/modules/user'
 import KakaoRedirectHandeler from './shared/KakaoRedirectHandler';
+import { kakaoLoginDB } from './redux/modules/user';
 import Auth from './shared/Auth';
 function App() {
   const dispatch = useDispatch();
@@ -20,18 +21,31 @@ function App() {
 
 
 
+  const getKakaoProfile = async () => {
+    try {
+      // Kakao SDK API를 이용해 사용자 정보 획득
+      let data = await window.Kakao.API.request({
+        url: "/v2/user/me",
+      })
+        .then(res => {
+          const userInfo = {
+            email: res.kakao_account.email,
+            nickname: res.properties.nickname,
+            userImage: res.properties.profile_image,
+          }
+          dispatch(kakaoLoginDB(userInfo));
+        })
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   React.useEffect(() => {
     if (localStorage.getItem('jwtToken'))
       dispatch(loginCheckDB());
-    // if (localStorage.getItem('KakaoToken')) {
-    //   dispatch(kakaoSetUserDB());
-    // }
-    // if (code) {
-    //   dispatch(kakaoAuthDB(code));
-    // console.log(code)
-    // }
-    // dispatch(kakaoAuthDB())
+    if (localStorage.getItem('accessToken')) {
+      getKakaoProfile();
+    }
   }, [])
 
 

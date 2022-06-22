@@ -90,6 +90,18 @@ export const deletePostDB = (id) => {
     }
 }
 
+// add contentMD
+export const addPostingDB = (postInfo) => {
+    console.log(postInfo)
+    return function (dispatch) {
+        postApi
+            .posting(postInfo)
+            .then((res) => { })
+            .catch((error) => {
+                console.log("게시글 등록 에러!");
+            });
+    };
+};
 
 
 export default function reducer(state = initialState, action = {}) {

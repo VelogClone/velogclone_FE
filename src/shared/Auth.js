@@ -3,7 +3,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { kakaoLoginDB } from "../redux/modules/user";
 const Auth = () => {
+    const dispatch = useDispatch();
     const [user_id, setUserId] = useState();
     const [nickName, setNickName] = useState();
     const [profileImage, setProfileImage] = useState();
@@ -18,6 +21,26 @@ const Auth = () => {
     const code = new URL(window.location.href).searchParams.get("code");
 
     const navigate = useNavigate();
+
+    const getKakaoProfile = async () => {
+        try {
+            // Kakao SDK API를 이용해 사용자 정보 획득
+            let data = await window.Kakao.API.request({
+                url: "/v2/user/me",
+            })
+                .then(res => {
+                    const userInfo = {
+                        email: res.kakao_account.email,
+                        nickname: res.properties.nickname,
+                        userImage: res.properties.profile_image,
+                    }
+
+                    dispatch(kakaoLoginDB(userInfo));
+                })
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const getToken = async () => {
         const payload = qs.stringify({
@@ -41,7 +64,8 @@ const Auth = () => {
             window.Kakao.Auth.setAccessToken(res.data.access_token);
             console.log(res.data)
 
-            localStorage.setItem("KakaoToken", res.data.access_token);
+            localStorage.setItem("accessToken", res.data.access_token);
+
 
             navigate("/");
         } catch (err) {
@@ -51,6 +75,8 @@ const Auth = () => {
 
     useEffect(() => {
         getToken();
+
+
     }, []);
 
     return null;

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ToastEditor from '../components';
 import { Button, Input } from '../elements';
 import { addPostDB, updatePostDB } from '../redux/modules/post';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { postApi } from '../shared/api';
+import ToastEditor from '../components/ToastEditor';
+import ToastViewer from '../components/ToastViewer';
+
 const FormPage = ({ mode }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -67,96 +69,44 @@ const FormPage = ({ mode }) => {
         dispatch(updatePostDB(id, data));
         navigate('/');
     }
+
     return (
-        <div style={{ display: 'flex', color: 'white' }}>
-            <WriteContainer>
-                <InputTitle
-                    placeholder='제목을 입력하세요'
-                    onChange={(e) => { setInputText(e.target.value) }}
-                    defaultValue={card.postTitle}
-                />
-                <Line />
+        <>
+            {/* <input
+                type="text"
+                onChange={(e) => { setInputText(e.target.value) }}
+            >제목
+            </input> */}
+            <InputTitle onChange={(e) => { setInputText(e.target.value) }} />
+            <ToastEditor text={inputText} ></ToastEditor>
+        </>
+        // <div style={{ display: 'flex' }}>
+        //     <WriteContainer>
+        //         <ToastEditor setText={setText}></ToastEditor>
+        //     </WriteContainer >
 
+        //     <LeftContainer>
+        //         <ToastViewer text={text}  ></ToastViewer>
 
-                <div style={{
-                    marginTop: '15px',
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 2fr',
-                    alignItems: 'center',
-                }}>
-                    <img style={{ width: "400px", height: "300px" }}
-                        src={mode === 'write' ? (fileImage ? fileImage : null)
-                            : (fileImage ? fileImage : card.postImage)
-                            // mode === 'write'
-                            //   ? fileImage
-                            //     ? fileImage
-                            //     : null
-                            //   : fileImage
-                            //     ? fileImage
-                            //     : commercial?.img
-                        }
-                        alt=''
-                    ></img>
-                    <div>
-                        <input
-                            id='file'
-                            ref={fileInput}
-                            type='file'
-                            style={{ display: 'none' }}
-                            onChange={selectFile}
-                        />
-                        <Button><label htmlFor='file' style={{ cursor: 'pointer' }}>
-                            사진 업로드
-                        </label></Button>
-                    </div>
-                </div>
-                <Textarea
-                    placeholder="내용을 입력하세요."
-                    onChange={(e) => { setAreaText(e.target.value) }}
-                    defaultValue={card.postContent}
-                />
-                <Footer>
-                    <span
-                        style={{
-                            color: 'white',
-                            backgroundColor: 'inherit',
-                            padding: '8px',
-                            borderRadius: '10px',
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => { navigate(-1); }}
-                    >나가기</span>
-                    {mode === 'write' ? <Button _onClick={writeClick} >출간하기</Button>
-                        : <Button _onClick={updateClick} >수정하기</Button>
-                    }
-                </Footer>
-
-            </WriteContainer >
-
-            <LeftContainer>
-
-            </LeftContainer>
-            <div>
-            </div>
-        </div >
+        //     </LeftContainer>
+        //     <div>
+        //     </div>
+        // </div >
     )
 }
 
 const WriteContainer = styled.div`
     width:50vw;
     height:100vh;
-    background-color:#121212;
 `;
 const LeftContainer = styled.div`
     width:50vw;
     height:100vh;
-    background-color:black;
 `;
 
 const ViewContainer = styled.div`
     width:50vw;
     height:100vh;
-    background-color:black;
         
 `;
 
@@ -166,7 +116,6 @@ const InputTitle = styled.input`
     outline: none;
     background-color: inherit;
     border :none;
-    color: white;
 `;
 const Textarea = styled.textarea`
     width:80%;

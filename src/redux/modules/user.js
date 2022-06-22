@@ -1,3 +1,4 @@
+import axios from "axios";
 import { authApi } from "../../shared/api";
 import Auth from "../../shared/Auth";
 import { setCookie, deleteCookie } from "../../shared/Cookie";
@@ -72,17 +73,20 @@ export const loginCheckDB = () => {
 }
 
 
+
 export const kakaoLoginDB = (userInfo) => {
     return async function (dispatch, getState) {
-        // console.log(userInfo)
-        // await authApi.sendKakaoUser(userInfo)
-        //     .then(res => {
-        dispatch(setUser(userInfo));  // 여기 할차례
-        //         })
-        //         .catch(err => {
-        //             alert(err);
-        //         })
-        console.log('1');
+        await authApi.KaKaoLogin(userInfo)
+            .then(res => {
+                console.log(res.data.token);
+                localStorage.setItem("jwtToken", res.data.token);
+                console.log(userInfo)
+                dispatch(setUser(userInfo.email, userInfo.nickname));
+                // window.location.replace("/");
+            })
+            .catch(err => {
+                alert(err);
+            })
     }
 };
 
@@ -104,8 +108,8 @@ export default function reducer(state = initialState, action = {}) {
         case 'user/LOGOUT': {
             if (localStorage.getItem('jwtToken'))
                 localStorage.removeItem('jwtToken');
-            if (localStorage.getItem('KakaoToken'))
-                localStorage.removeItem('KakaoToken')
+            if (localStorage.getItem('accessToken'))
+                localStorage.removeItem('accessToken')
             const newUser = {
                 is_login: false,
                 email: null,

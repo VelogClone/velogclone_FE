@@ -5,38 +5,36 @@ import { mainpostAPI } from "../redux/modules/post";
 import RecipeReviewCard from "../styled/CardBox";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { integerPropType } from "@mui/utils";
 import { kakaoLoginDB } from '../redux/modules/user'
+import { authApi } from "../shared/api";
 const Main = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const post_list = useSelector((state) => state.post.list)
 
-    const getKakaoProfile = async () => {
-        try {
-            // Kakao SDK API를 이용해 사용자 정보 획득
-            let data = await window.Kakao.API.request({
-                url: "/v2/user/me",
-            });
-            console.log(data.kakao_account.email);
-            dispatch(kakaoLoginDB({
-                email: data.kakao_account.email,
-                nickname: data.properties.nickname,
-                userImage: data.properties.profile_image,
-            })
-            )
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    // const getKakaoProfile = async () => {
+    //     try {
+    //         // Kakao SDK API를 이용해 사용자 정보 획득
+    //         let data = await window.Kakao.API.request({
+    //             url: "/v2/user/me",
+    //         })
+    //             .then(res => {
+    //                 const userInfo = {
+    //                     email: res.kakao_account.email,
+    //                     nickname: res.properties.nickname,
+    //                     userImage: res.properties.profile_image,
+    //                 }
+    //                 dispatch(kakaoLoginDB(userInfo));
+    //             })
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
     React.useEffect(() => {
         dispatch(mainpostAPI());
-        console.log('main useEffect')
-        if (localStorage.getItem('KakaoToken')) {
-            console.log('main 안 if 문')
-            getKakaoProfile();
-
-        }
+        // if (localStorage.getItem('accessToken')) {
+        //     getKakaoProfile();
+        // }
     }, []);
 
     return (
