@@ -7,7 +7,6 @@ const Button = (props) => {
         width,
         height : "10%",
         margin,
-
     };
     return (
         <CustomButton

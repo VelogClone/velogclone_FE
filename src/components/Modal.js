@@ -31,8 +31,9 @@ const Modal = (props) => {
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
-                            backgroundColor: '#5D5D5D',
+                            backgroundColor: '#F8F9FA',
                             padding: "10px"
+                            
 
                         }}>
                             <img src="https://static.velog.io/static/media/undraw_joyride_hnno.fae6b95e.svg" alt="welcome"></img>

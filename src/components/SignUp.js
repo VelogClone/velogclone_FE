@@ -109,16 +109,17 @@ export const SignUp = ({ onClick, setSignUp }) => {
 
 
 
-            <p>프로필 사진을 올려주세요! (선택)</p>
+            <p style={{fontSize:"10px", marginBottom : "13%", textAlign:"left", marginLeft:"10%"}}>프로필 사진을 올려주세요! (선택)</p>
 
             <div style={{
-                marginTop: '15px',
-                display: 'grid',
+                marginTop: '-35px',
+                display: 'flex',
                 gridTemplateColumns: '1fr 2fr',
                 alignItems: 'center',
+                justifyContent : 'space-around'
             }}>
                 <img
-                    style={{ width: "100px", height: "100px" }}
+                    style={{ width: "80px", height: "80px" }}
                     src={fileImage ? fileImage : 'https://user-images.githubusercontent.com/75834421/124501682-fb25fd00-ddfc-11eb-93ec-c0330dff399b.jpg'}
                 ></img>
                 <div>

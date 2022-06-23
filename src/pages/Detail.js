@@ -111,7 +111,7 @@ const Detail = () => {
                                         <img src={data.userImage} />
                                     </Profile2>
                                     <div style={{ position: "relative" }}>
-                                        <div style={{ position: "absolute", top: "-50px", left: "68px", width: "120px", textAlign: "left", fontWeight: "bolder" }}>{data.nickname}</div>
+                                        <div style={{ position: "absolute", top: "-50px", left: "68px", fontSize : "clamp(1rem, 1vw, 1rem)", width: "30vw", textAlign: "left", fontWeight: "bolder" }}>{data.nickname}</div>
                                         <div style={{ position: "absolute", top: "-28px", left: "61px", fontSize: "14px", width: "120px" }}>{data.commentDate}</div>
                                     </div>
                                 </div>
