@@ -1,6 +1,6 @@
 import React from 'react';
 const CLIENT_ID = "a3601a903e81f37561b865b380476480";
-const REDIRECT_URI = "http://localhost:3000/oauth/callback/kakao";
+const REDIRECT_URI = "http://megazine-project123.s3-website.ap-northeast-2.amazonaws.com/oauth/callback/kakao";
 
 // 프런트엔드 리다이랙트 URI 예시
 // const REDIRECT_URI =  "http://localhost:3000/oauth/callback/kakao";

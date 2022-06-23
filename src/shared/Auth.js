@@ -14,7 +14,7 @@ const Auth = () => {
 
 
     const REST_API_KEY = "a3601a903e81f37561b865b380476480";
-    const REDIRECT_URI = "http://localhost:3000/oauth/callback/kakao";
+    const REDIRECT_URI = "http://megazine-project123.s3-website.ap-northeast-2.amazonaws.com/oauth/callback/kakao";
     const CLIENT_SECRET = "p6v6BGICvsTVpkBksuJbZNpZGYLiQALm";
 
     // calllback으로 받은 인가코드
